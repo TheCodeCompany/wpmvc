@@ -1,0 +1,16 @@
+{
+	"name": "thecodeco/wpmvc",
+	"description": "MVC framework for WordPress",
+	"version": "2.0.0",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WPMVC\\": "source/"
+        }
+	},
+	"archive": {
+        "exclude": [".gitignore"]
+    }
+}
