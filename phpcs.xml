@@ -3,6 +3,7 @@
 	<rule ref="TCC"></rule>
 
 	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/wordpress/*</exclude-pattern>
 
 	<!-- Ignore filename standards, we use PSR-4 -->
 	<exclude ref="WordPress.Files.FileName"/>
