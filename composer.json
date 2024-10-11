@@ -49,5 +49,10 @@
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
+	},
+	"scripts": {
+		"lint": "composer run phpcs",
+		"phpcs": "vendor/bin/phpcs --standard=phpcs.xml",
+		"phpcbf": "vendor/bin/phpcbf --standard=phpcs.xml"
 	}
 }
