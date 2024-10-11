@@ -34,5 +34,20 @@
 		"exclude": [
 			".gitignore"
 		]
+	},
+	"repositories": [
+		{
+			"name": "thecodeco/coding-standards",
+			"type": "git",
+			"url": "https://bitbucket.org/thecodeco/coding-standards/"
+		}
+	],
+	"require-dev": {
+		"thecodeco/coding-standards": "dev-main"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }
