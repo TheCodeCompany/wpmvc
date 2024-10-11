@@ -1,7 +1,6 @@
-
 # WPMVC - WordPress MVC Framework
 
-This framework is intended to be a thin / lightweight library which provides some core 
+This framework is intended to be a thin / lightweight library which provides some core
 MVC features for building applications with WordPress.
 
 ## Getting Started

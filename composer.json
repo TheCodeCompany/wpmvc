@@ -1,38 +1,38 @@
 {
-    "name": "thecodeco/wpmvc",
-    "description": "MVC framework for WordPress",
-    "license": "ISC",
-    "version": "2.0.0",
-    "authors": [
-        {
-            "name": "Contributors",
-            "homepage": "https://github.com/TheCodeCompany/wpmvc/graphs/contributors"
-        }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {
-        "php": ">=7.4"
-    },
-    "autoload": {
-        "psr-4": {
-            "WPMVC\\": "source/"
-        }
-    },
-    "support": {
-        "wiki": "https://github.com/TheCodeCompany/wpmvc/wiki",
-        "source": "https://github.com/TheCodeCompany/wpmvc/releases",
-        "issues": "https://github.com/TheCodeCompany/wpmvc/issues"
-    },
-    "keywords": [
-        "wordpress",
-        "composer",
-        "mvc",
-        "framework"
-    ],
-    "archive": {
-        "exclude": [
-            ".gitignore"
-        ]
-    }
+	"name": "thecodeco/wpmvc",
+	"description": "MVC framework for WordPress",
+	"license": "ISC",
+	"version": "2.0.0",
+	"authors": [
+		{
+			"name": "Contributors",
+			"homepage": "https://github.com/TheCodeCompany/wpmvc/graphs/contributors"
+		}
+	],
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"php": ">=7.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"WPMVC\\": "src/"
+		}
+	},
+	"support": {
+		"wiki": "https://github.com/TheCodeCompany/wpmvc/wiki",
+		"source": "https://github.com/TheCodeCompany/wpmvc/releases",
+		"issues": "https://github.com/TheCodeCompany/wpmvc/issues"
+	},
+	"keywords": [
+		"wordpress",
+		"composer",
+		"mvc",
+		"framework"
+	],
+	"archive": {
+		"exclude": [
+			".gitignore"
+		]
+	}
 }
