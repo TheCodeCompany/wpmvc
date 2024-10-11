@@ -3,9 +3,10 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
+# Maintain dependencies for Composer
 version: 2
 updates:
-  - package-ecosystem: "composer" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "composer"
+    directory: "/" # Files stored in the repository root
     schedule:
       interval: "daily"
