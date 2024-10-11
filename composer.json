@@ -43,11 +43,13 @@
 		}
 	],
 	"require-dev": {
-		"thecodeco/coding-standards": "dev-main"
+		"thecodeco/coding-standards": "dev-main",
+		"johnpbloch/wordpress": "^6.6"
 	},
 	"config": {
 		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"johnpbloch/wordpress-core-installer": true
 		}
 	},
 	"scripts": {
