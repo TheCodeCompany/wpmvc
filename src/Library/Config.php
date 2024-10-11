@@ -46,10 +46,10 @@ class Config {
 	 *
 	 * @param \WPMVC\Core\Application $app Application instance this config is for.
 	 */
-	public function __construct( \WPMVC\Core\Application $app ) { // TODO pass name and directory so we could use this is in a theme or something.
+	public function __construct( \WPMVC\Core\Application $app ) {
+		// TODO pass name and directory so we could use this is in a theme or something.
 
 		$this->app = $app;
-
 	}
 
 	/**
@@ -81,7 +81,6 @@ class Config {
 		}
 
 		return $return_value;
-
 	}
 
 	/**
@@ -92,7 +91,6 @@ class Config {
 	public function get_app_name() {
 
 		return $this->app->get_name();
-
 	}
 
 	/**
@@ -103,7 +101,6 @@ class Config {
 	public function get_app_directory() {
 
 		return $this->app->get_directory();
-
 	}
 
 	/**
@@ -155,7 +152,5 @@ class Config {
 			$this->config[ $config_key ] = array_replace_recursive( $app_config_value, $env_config_value );
 
 		}
-
 	}
-
 }

@@ -28,7 +28,6 @@ class AdminAjax {
 
 		add_action( 'wp_ajax_' . $action, $callback );
 		add_action( 'wp_ajax_nopriv_' . $action, $callback );
-
 	}
 
 	/**
@@ -44,7 +43,6 @@ class AdminAjax {
 		$value = isset( $_POST[ $param ] ) ? $_POST[ $param ] : $default; // phpcs:ignore
 
 		return $value;
-
 	}
 
 	/**
@@ -56,7 +54,5 @@ class AdminAjax {
 
 		header( 'Content-Type: application/json' );
 		die( wp_json_encode( $response ) );
-
 	}
-
 }

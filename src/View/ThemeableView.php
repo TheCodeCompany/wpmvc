@@ -9,9 +9,9 @@
 
 namespace WPMVC\View;
 
-use \WPMVC\Core\View;
-use \WPMVC\Library\Config;
-use \WPMVC\Library\Templater;
+use WPMVC\Core\View;
+use WPMVC\Library\Config;
+use WPMVC\Library\Templater;
 
 /**
  * A HTML view which uses template files in the WP theme.  It is backed by the `Templater` class so it can also use a
@@ -49,7 +49,6 @@ class ThemeableView extends View {
 
 		$this->config   = $config;
 		$this->template = $template;
-
 	}
 
 	/**
@@ -70,7 +69,5 @@ class ThemeableView extends View {
 		);
 
 		return $templater->render( $output );
-
 	}
-
 }

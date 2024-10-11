@@ -74,7 +74,6 @@ class REST {
 	public function __construct() {
 
 		add_action( 'rest_api_init', [ $this, 'register_endpoints' ] );
-
 	}
 
 	/**
@@ -105,7 +104,6 @@ class REST {
 		// Add to the list of endpoints to register.
 		$route                     = $this->build_route( $args );
 		$this->endpoints[ $route ] = $args;
-
 	}
 
 	/**
@@ -143,7 +141,6 @@ class REST {
 			);
 
 		}
-
 	}
 
 	/**
@@ -183,7 +180,6 @@ class REST {
 		}
 
 		return $allowed;
-
 	}
 
 	/**
@@ -208,7 +204,6 @@ class REST {
 				break;
 			}
 		}
-
 	}
 
 	/**
@@ -245,7 +240,6 @@ class REST {
 		}
 
 		return $response;
-
 	}
 
 	/**
@@ -263,7 +257,5 @@ class REST {
 		$route = "/{$namespace}/{$version}/{$action}";
 
 		return $route;
-
 	}
-
 }

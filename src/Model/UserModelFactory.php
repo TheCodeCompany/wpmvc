@@ -305,17 +305,15 @@ class UserModelFactory extends WPModelFactory {
 		foreach ( $meta_fields as $key => $value ) {
 			if ( empty( $value ) ) {
 				$user->delete_meta( $key );
-			} else {
-				if ( is_array( $value ) ) {
+			} elseif ( is_array( $value ) ) {
 					$user->delete_meta( $key );
 
 					// Arrays will be added as multiple, separate values.
-					foreach ( $value as $val ) {
-						$user->add_meta( $key, $val );
-					}
-				} else {
-					$user->set_meta( $key, $value );
+				foreach ( $value as $val ) {
+					$user->add_meta( $key, $val );
 				}
+			} else {
+				$user->set_meta( $key, $value );
 			}
 		}
 	}

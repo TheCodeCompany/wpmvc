@@ -52,5 +52,4 @@ interface WPMeta {
 	 * @return bool False for failure. True for success.
 	 */
 	public function delete_meta( $key, $value = '' );
-
 }

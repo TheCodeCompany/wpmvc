@@ -9,9 +9,9 @@
 
 namespace WPMVC\View;
 
-use \WPMVC\Core\View;
-use \WPMVC\Library\Config;
-use \WPMVC\Library\Templater;
+use WPMVC\Core\View;
+use WPMVC\Library\Config;
+use WPMVC\Library\Templater;
 
 /**
  * A generic email view.  Can be used like so:
@@ -84,7 +84,6 @@ class EmailView extends View {
 				return 'UTF-8';
 			}
 		);
-
 	}
 
 	/**
@@ -94,10 +93,9 @@ class EmailView extends View {
 	 */
 	public function attach( $filename ) {
 
-		//assert( file_exists( $filename ) );
+		// assert( file_exists( $filename ) );
 
 		$this->attachments[] = $filename;
-
 	}
 
 	/**
@@ -110,7 +108,7 @@ class EmailView extends View {
 	public function send( $to ) {
 		$success = false;
 
-		//assert( ! empty( $to ) );
+		// assert( ! empty( $to ) );
 
 		// Recurse if the to field is an array of email addresses.
 		if ( is_array( $to ) ) {
@@ -156,7 +154,6 @@ class EmailView extends View {
 		);
 
 		return $success;
-
 	}
 
 	/**
@@ -168,7 +165,7 @@ class EmailView extends View {
 	 */
 	protected function shortcodes( $content ) {
 
-		//assert( ! empty( $content ) );
+		// assert( ! empty( $content ) );
 
 		// Perform shortcode replacement.
 		foreach ( $this->params as $key => $value ) {
@@ -185,7 +182,5 @@ class EmailView extends View {
 		}
 
 		return $content;
-
 	}
-
 }

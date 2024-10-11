@@ -18,5 +18,4 @@ namespace WPMVC\Model;
 class PageModel extends GenericPostModel {
 
 	const POST_TYPE = 'page';
-
 }

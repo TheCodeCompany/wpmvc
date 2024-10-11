@@ -177,7 +177,7 @@ class TaxonomyTermModelFactory extends WPModelFactory {
 				$converted_terms = $parent_groups[0];
 
 				// Adds the children to a given term group.
-				$add_term_children = function( &$converted_terms ) use ( $parent_groups, &$add_term_children ) {
+				$add_term_children = function ( &$converted_terms ) use ( $parent_groups, &$add_term_children ) {
 
 					// Loop through all of the terms for this parent.
 					foreach ( $converted_terms as $term_id => &$term_info ) {
@@ -354,17 +354,15 @@ class TaxonomyTermModelFactory extends WPModelFactory {
 		foreach ( $meta_fields as $key => $value ) {
 			if ( empty( $value ) ) {
 				$term->delete_meta( $key );
-			} else {
-				if ( is_array( $value ) ) {
+			} elseif ( is_array( $value ) ) {
 					$term->delete_meta( $key );
 
 					// Arrays will be added as multiple, separate values.
-					foreach ( $value as $val ) {
-						$term->add_meta( $key, $val );
-					}
-				} else {
-					$term->set_meta( $key, $value );
+				foreach ( $value as $val ) {
+					$term->add_meta( $key, $val );
 				}
+			} else {
+				$term->set_meta( $key, $value );
 			}
 		}
 	}

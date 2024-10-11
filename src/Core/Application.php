@@ -9,11 +9,11 @@
 
 namespace WPMVC\Core;
 
-use \WPMVC\Library\Config;
+use WPMVC\Library\Config;
 use WPMVC\Library\ControllerSetup;
-use \WPMVC\Library\Route;
-use \WPMVC\Library\REST;
-use \WPMVC\Library\AdminAjax;
+use WPMVC\Library\Route;
+use WPMVC\Library\REST;
+use WPMVC\Library\AdminAjax;
 
 /**
  * An application.
@@ -76,7 +76,6 @@ class Application {
 		$this->load_config();
 
 		add_action( 'plugins_loaded', [ $this, 'setup_controllers' ] );
-
 	}
 
 	/**
@@ -149,7 +148,6 @@ class Application {
 	public function get_config() {
 
 		return $this->config;
-
 	}
 
 	/**
@@ -160,7 +158,6 @@ class Application {
 	public function get_directory() {
 
 		return $this->directory;
-
 	}
 
 	/**
@@ -171,7 +168,6 @@ class Application {
 	public function get_name() {
 
 		return $this->name;
-
 	}
 
 	/**
@@ -183,6 +179,5 @@ class Application {
 
 		$this->config = new Config( $this );
 		$this->config->autoload();
-
 	}
 }

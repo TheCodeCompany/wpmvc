@@ -55,7 +55,7 @@ class UserModel extends WPModel implements WPMeta {
 	 * @param \WP_User|int $user User object or ID. Use of ID is discouraged.
 	 */
 	public function __construct( $user = 0 ) {
-		//assert( ! empty( $user ) );
+		// assert( ! empty( $user ) );
 
 		if ( 'object' === (string) gettype( $user ) ) {
 			$this->user = $user;
@@ -135,11 +135,10 @@ class UserModel extends WPModel implements WPMeta {
 	 * @deprecated Use a factory to update a model.
 	 */
 	public function update( $args ) {
-		//assert( ! empty( $args ) );
+		// assert( ! empty( $args ) );
 		$args['ID'] = $this->user->ID;
 
 		return wp_update_user( $args );
-
 	}
 
 	/**
@@ -163,7 +162,7 @@ class UserModel extends WPModel implements WPMeta {
 	 * @return bool|int
 	 */
 	public function set_meta( $key, $value ) {
-		//assert( ! empty( $key ) );
+		// assert( ! empty( $key ) );
 
 		return update_user_meta( $this->user->ID, $key, $value );
 	}
@@ -178,7 +177,7 @@ class UserModel extends WPModel implements WPMeta {
 	 * @return false|int
 	 */
 	public function add_meta( $key, $value, $unique = false ) {
-		//assert( ! empty( $key ) );
+		// assert( ! empty( $key ) );
 
 		return add_user_meta( $this->user->ID, $key, $value, $unique );
 	}
@@ -192,7 +191,7 @@ class UserModel extends WPModel implements WPMeta {
 	 * @return bool False for failure. True for success.
 	 */
 	public function delete_meta( $key, $value = '' ) {
-		//assert( ! empty( $key ) );
+		// assert( ! empty( $key ) );
 
 		return delete_user_meta( $this->user->ID, $key, $value );
 	}

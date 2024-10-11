@@ -9,10 +9,10 @@
 
 namespace WPMVC\Core;
 
-use \WPMVC\Library\Config;
-use \WPMVC\Library\Route;
-use \WPMVC\Library\REST;
-use \WPMVC\Library\AdminAjax;
+use WPMVC\Library\Config;
+use WPMVC\Library\Route;
+use WPMVC\Library\REST;
+use WPMVC\Library\AdminAjax;
 
 /**
  * Base controller class which all controllers should extend.
@@ -121,7 +121,6 @@ abstract class Controller {
 	public function set_config_instance( Config $config ) {
 
 		$this->config = $config;
-
 	}
 
 	/**
@@ -134,7 +133,6 @@ abstract class Controller {
 	public function set_route_instance( Route $route ) {
 
 		$this->route = $route;
-
 	}
 
 	/**
@@ -147,7 +145,6 @@ abstract class Controller {
 	public function set_rest_instance( REST $rest ) {
 
 		$this->rest = $rest;
-
 	}
 
 	/**
@@ -160,7 +157,5 @@ abstract class Controller {
 	public function set_admin_ajax_instance( AdminAjax $admin_ajax ) {
 
 		$this->admin_ajax = $admin_ajax;
-
 	}
-
 }

@@ -41,7 +41,6 @@ class Route {
 
 		// Register the setup class.
 		add_filter( 'do_parse_request', [ $this, 'handle_routes' ], 1, 3 );
-
 	}
 
 	/**
@@ -70,7 +69,6 @@ class Route {
 		if ( ! empty( $args['regex'] ) && ! empty( $args['callback'] ) ) {
 			$this->routes[] = $args;
 		}
-
 	}
 
 	/**
@@ -131,7 +129,6 @@ class Route {
 
 		// No matching route found, fallback to WordPress.
 		return $continue;
-
 	}
 
 	/**
@@ -174,7 +171,5 @@ class Route {
 		if ( ! empty( $transaction_name ) && extension_loaded( 'newrelic' ) ) { // Ensure New Relic agent is available.
 			newrelic_name_transaction( $transaction_name );
 		}
-
 	}
-
 }

@@ -18,5 +18,4 @@ namespace WPMVC\Model;
 class PostModel extends GenericPostModel {
 
 	const POST_TYPE = self::POST_TYPE_DEFAULT;
-
 }

@@ -41,5 +41,4 @@ abstract class View {
 	public function get_param( $name ) {
 		return $this->params[ $name ];
 	}
-
 }

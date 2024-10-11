@@ -365,17 +365,15 @@ class GenericPostModelFactory extends WPModelFactory {
 		foreach ( $meta_fields as $key => $value ) {
 			if ( empty( $value ) ) {
 				$post->delete_meta( $key );
-			} else {
-				if ( is_array( $value ) ) {
+			} elseif ( is_array( $value ) ) {
 					$post->delete_meta( $key );
 
 					// Arrays will be added as multiple, separate values.
-					foreach ( $value as $val ) {
-						$post->add_meta( $key, $val );
-					}
-				} else {
-					$post->set_meta( $key, $value );
+				foreach ( $value as $val ) {
+					$post->add_meta( $key, $val );
 				}
+			} else {
+				$post->set_meta( $key, $value );
 			}
 		}
 	}

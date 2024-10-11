@@ -97,10 +97,10 @@ class Templater {
 		$subdir = isset( $args['subdir'] ) ? $args['subdir'] : '';
 		$params = isset( $args['params'] ) ? $args['params'] : '';
 
-		//assert( ! empty( $slug ) );
+		// assert( ! empty( $slug ) );
 		$this->slug = $slug;
 
-		//assert( ! empty( $dir ) );
+		// assert( ! empty( $dir ) );
 		$this->dir = $dir;
 
 		$this->subdir = $subdir;
@@ -113,7 +113,6 @@ class Templater {
 
 		// Add in the template slug.
 		$this->params['template_slug'] = $slug;
-
 	}
 
 	/**
@@ -160,7 +159,6 @@ class Templater {
 			return ob_get_clean();
 
 		}
-
 	}
 
 	/**
@@ -194,7 +192,6 @@ class Templater {
 		}
 
 		wp_die( esc_html( "Template does not exist; $name" ) );
-
 	}
 
 	/**
@@ -217,7 +214,5 @@ class Templater {
 
 		// Include and execute the template file.
 		include $template_file;
-
 	}
-
 }
