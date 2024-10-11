@@ -1,4 +1,5 @@
 /vendor/
+.vscode/
 *.sublime-workspace
 *.sublime-project
 *.pydevproject
