@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2477cc3d90b44bd9ba785ae81c5614e",
+    "content-hash": "34fc29959f53425a37c108e5282ededc",
     "packages": [],
     "packages-dev": [
         {
@@ -801,7 +801,7 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/thecodeco/coding-standards/",
-                "reference": "e91bfa1b097c8dbf71eb86aa8fb2e5cbc7a42179"
+                "reference": "e4c7b18f54d8e8be819fef0fc74201243d8b96dc"
             },
             "require": {
                 "automattic/vipwpcs": "^3.0",
@@ -834,7 +834,7 @@
                 "MIT"
             ],
             "description": "The Code Co. PHPCS Coding Standards",
-            "time": "2023-12-22T04:56:10+00:00"
+            "time": "2024-10-24T05:28:32+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -911,7 +911,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4"
+        "php": ">=8.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

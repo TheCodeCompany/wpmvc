@@ -2,7 +2,6 @@
 	"name": "thecodeco/wpmvc",
 	"description": "MVC framework for WordPress",
 	"license": "ISC",
-	"version": "1.0.0-alpha",
 	"authors": [
 		{
 			"name": "Contributors",
