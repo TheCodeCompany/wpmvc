@@ -2,7 +2,6 @@
 	"name": "thecodeco/wpmvc",
 	"description": "MVC framework for WordPress",
 	"license": "ISC",
-	"version": "2.0.0",
 	"authors": [
 		{
 			"name": "Contributors",
@@ -12,7 +11,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
-		"php": ">=7.4"
+		"php": ">=8.1"
 	},
 	"autoload": {
 		"psr-4": {

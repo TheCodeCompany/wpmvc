@@ -2,7 +2,7 @@
 /**
  * WPModelFactory
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -14,7 +14,7 @@ use WPMVC\Core\ModelFactory;
 /**
  * Base factory classes for WordPress-based models
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class WPModelFactory extends ModelFactory {
 

@@ -2,7 +2,7 @@
 /**
  * WPTaxonomyTerms
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -13,7 +13,7 @@ namespace WPMVC\Model;
  * Interface for taxonomy terms. Models which implement this interface are
  * able to manage term associations in WordPress.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 interface WPTaxonomyTerms {
 

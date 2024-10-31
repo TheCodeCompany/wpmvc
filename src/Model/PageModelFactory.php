@@ -2,7 +2,7 @@
 /**
  * PageModelFactory.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -12,7 +12,7 @@ namespace WPMVC\Model;
 /**
  * Model factory for WordPress pages.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class PageModelFactory extends GenericPostModelFactory {
 

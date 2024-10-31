@@ -2,7 +2,7 @@
 /**
  * Provides the GenericPostFactory class.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -14,7 +14,7 @@ namespace WPMVC\Model;
  * post-based models. A `Model` instance should not be instantiated directly,
  * instead it should be instantiated via a factory.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class GenericPostModelFactory extends WPModelFactory {
 

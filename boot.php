@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: WPMVC
- * Description: A MVC framework for WordPress.
- * Version:     2.0.0
- * Author:      The Code Co
+ * Description: MVC framework for WordPress
+ * Version:     1.0.0-alpha
+ * Author:      The Code Co.
  * Author URI:  https://thecode.co
  *
  * @package wpmvc
