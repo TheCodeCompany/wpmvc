@@ -2,7 +2,7 @@
 /**
  * PostFactory.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName

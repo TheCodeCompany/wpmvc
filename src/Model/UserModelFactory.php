@@ -2,7 +2,7 @@
 /**
  * Provides the UserModelFactory class.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -14,7 +14,7 @@ namespace WPMVC\Model;
  * should not be instantiated directly.  It should always go via one of the
  * methods in this class.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class UserModelFactory extends WPModelFactory {
 

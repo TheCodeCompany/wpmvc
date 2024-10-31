@@ -2,7 +2,7 @@
 /**
  * Provides the TaxonomyTermModel class.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -23,7 +23,7 @@ namespace WPMVC\Model;
  * @property int    $parent
  * @property int    $count
  * @property string $filter
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class TaxonomyTermModel extends WPModel implements WPMeta {
 

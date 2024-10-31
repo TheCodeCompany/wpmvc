@@ -2,7 +2,7 @@
 /**
  * TaxonomyModelFactory
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -12,7 +12,7 @@ namespace WPMVC\Model;
 /**
  * Factory for WordPress taxonomies.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class TaxonomyModelFactory extends WPModelFactory {
 

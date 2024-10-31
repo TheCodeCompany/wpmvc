@@ -36,7 +36,7 @@ namespace WPMVC\Model;
  * @property string $post_type              The post type.
  * @property string $post_mime_type         The post type.
  * @property string $comment_count          Number of comments on post (numeric string)
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 

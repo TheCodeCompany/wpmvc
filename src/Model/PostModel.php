@@ -2,7 +2,7 @@
 /**
  * PostModel.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 
 // phpcs:disable WordPress.Files.FileName
@@ -13,7 +13,7 @@ namespace WPMVC\Model;
  * A model instance which wraps a `WP_Post` instance.  You should extend this
  * class for a CPT instance.
  *
- * @package WPMVC\Model
+ * @package wpmvc
  */
 class PostModel extends GenericPostModel {
 
