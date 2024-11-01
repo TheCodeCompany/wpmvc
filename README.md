@@ -21,3 +21,7 @@ This framework is intended to be a thin / lightweight library which provides som
 - Use of traits for REST, routing etc.
 - Scaffolding and other useful CLI tooling.
 - Better documentation.
+
+## Contributing
+
+[WPMVC](https://github.com/TheCodeCompany/wpmvc) is maintained by [The Code Company](https://thecode.co/), while we appreciate feedback and will endeavour to action requests for features/bug fixes this repository is not open to outside contribution at this time. You are, however, free to fork and use WPMVC in any way you see fit as per the ISC license.
