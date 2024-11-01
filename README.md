@@ -1,18 +1,23 @@
 # WPMVC - WordPress MVC Framework
 
-This framework is intended to be a thin / lightweight library which provides some core
-MVC features for building applications with WordPress.
+Maintained by: [The Code Company](https://thecode.co)
 
-## Getting Started
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
-When setting up a new project / site, it is best to use our [TCC Base repo](https://bitbucket.org/thecodeco/base/src/main/).
+> [!IMPORTANT]  
+> WPMVC is currently in alpha, as such there may be breaking changes introduced on our path to beta/v1.0. While we hope you will find the package useful in its current state you're using it at your own risk.
 
-The base repo has an example WPMVC set up, an example/base theme etc.
+## Overview
 
-## Manual Set Up
+This framework is intended to be a thin / lightweight library which provides some core MVC features for building applications with WordPress. You will most likely not interact with this package directly, instead please use the [WPMVC Example](https://github.com/TheCodeCompany/wpmvc-example) repository which provides the basis for an mu-plugin using WPMVC as a dependency.
 
-The best way to get started using this framework is to clone the [example repo](https://bitbucket.org/thecodeco/wpmvc-example/src/).
+## Requirements
 
-This is a good base for building a new plugin, including the directory structure, composer set up etc. It also provides some basic examples of controllers etc.
+- PHP 8.1+
+- WordPress 6.4+
 
-This process is documented here - [WPMVC Set Up](https://thecodeco.atlassian.net/wiki/spaces/DO/pages/143360214/WPMVC+-+Set+Up).
+## Roadmap
+- Dependency injection
+- Use of traits for REST, routing etc.
+- Scaffolding and other useful CLI tooling.
+- Better documentation.
