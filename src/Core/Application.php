@@ -10,7 +10,6 @@
 namespace WPMVC\Core;
 
 use WPMVC\Library\Config;
-use WPMVC\Library\ControllerSetup;
 use WPMVC\Library\Route;
 use WPMVC\Library\REST;
 use WPMVC\Library\AdminAjax;
@@ -37,28 +36,28 @@ class Application {
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * The root directory of the application.
 	 *
 	 * @var string
 	 */
-	protected $directory = '';
+	protected string $directory = '';
 
 	/**
 	 * All of the controllers defined in the application.
 	 *
 	 * @var array
 	 */
-	protected $controllers = [];
+	protected array $controllers = [];
 
 	/**
 	 * The config helper instance.
 	 *
-	 * @var \WPMVC\Library\Config
+	 * @var Config
 	 */
-	protected $config = null;
+	protected ?Config $config = null;
 
 	/**
 	 * Constructor.
@@ -67,7 +66,7 @@ class Application {
 	 * @param string $directory   The root directory of the application.
 	 * @param array  $controllers All of the applications controllers.
 	 */
-	public function __construct( $name, $directory, $controllers ) {
+	public function __construct( string $name, string $directory, array $controllers ) {
 
 		$this->name        = $name;
 		$this->directory   = $directory;
@@ -84,59 +83,35 @@ class Application {
 	 *
 	 * @return void
 	 */
-	public function setup_controllers() {
+	public function setup_controllers(): void {
 
 		// Set helper instances.
 		$route = new Route();
 		$rest  = new REST();
 		$ajax  = new AdminAjax();
-		foreach ( $this->controllers as $controller ) {
 
-			/**
-			 * Apply filters to the controller before we set instances.
-			 */
+		foreach ( $this->controllers as $index => $controller ) {
+
 			$controller = apply_filters( 'wpmvc_pre_controller_set_instances', $controller );
 
 			$controller->set_route_instance( $route );
 			$controller->set_rest_instance( $rest );
-			$controller->set_admin_ajax_instance( $ajax ); // TODO: implement and test.
+			$controller->set_admin_ajax_instance( $ajax );
 
-			/**
-			 * Apply filters to the controller after we set instances.
-			 */
 			$controller = apply_filters( 'wpmvc_post_controller_set_instances', $controller );
-		}
-
-		// Set config.
-		foreach ( $this->controllers as $controller ) {
-
-			/**
-			 * Apply filters to the controller before we set the config.
-			 */
 			$controller = apply_filters( 'wpmvc_pre_controller_set_config', $controller );
 
 			$controller->set_config_instance( $this->config );
 
-			/**
-			 * Apply filters to the controller after we set the config.
-			 */
 			$controller = apply_filters( 'wpmvc_post_controller_set_config', $controller );
-		}
-
-		// Set up each controller.
-		foreach ( $this->controllers as $controller ) {
-
-			/**
-			 * Apply filters to the controller before we set it up.
-			 */
 			$controller = apply_filters( 'wpmvc_pre_controller_set_up', $controller );
 
 			$controller->set_up();
 
-			/**
-			 * Apply filters to the controller after we set it up.
-			 */
 			$controller = apply_filters( 'wpmvc_post_controller_set_up', $controller );
+
+			// Write back so filter-replaced instances are persisted for callers.
+			$this->controllers[ $index ] = $controller;
 		}
 	}
 
@@ -145,7 +120,7 @@ class Application {
 	 *
 	 * @return Config
 	 */
-	public function get_config() {
+	public function get_config(): Config {
 
 		return $this->config;
 	}
@@ -155,7 +130,7 @@ class Application {
 	 *
 	 * @return string
 	 */
-	public function get_directory() {
+	public function get_directory(): string {
 
 		return $this->directory;
 	}
@@ -165,7 +140,7 @@ class Application {
 	 *
 	 * @return string
 	 */
-	public function get_name() {
+	public function get_name(): string {
 
 		return $this->name;
 	}
@@ -175,7 +150,7 @@ class Application {
 	 *
 	 * @return void
 	 */
-	protected function load_config() {
+	protected function load_config(): void {
 
 		$this->config = new Config( $this );
 		$this->config->autoload();

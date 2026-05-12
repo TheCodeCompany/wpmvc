@@ -33,7 +33,6 @@ class PageModelFactory extends GenericPostModelFactory {
 	 * @return GenericPostModel|PageModel
 	 */
 	public function wrap( $post ) {
-		// assert( ! empty( $post ) );
 
 		return new PageModel( $post );
 	}

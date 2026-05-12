@@ -35,9 +35,16 @@ class ThemeableView extends View {
 	/**
 	 * Application config object.
 	 *
-	 * @var object
+	 * @var Config
 	 */
-	protected $config;
+	protected Config $config;
+
+	/**
+	 * Template slug.
+	 *
+	 * @var string
+	 */
+	protected string $template;
 
 	/**
 	 * Constructor.
@@ -45,7 +52,7 @@ class ThemeableView extends View {
 	 * @param Config $config   Application configuration object.
 	 * @param string $template Slug of the template to use.
 	 */
-	public function __construct( Config $config, $template ) {
+	public function __construct( Config $config, string $template ) {
 
 		$this->config   = $config;
 		$this->template = $template;
@@ -55,9 +62,11 @@ class ThemeableView extends View {
 	 * Renders the given template file.  By default, it will use the template in the theme.  If there is no template in
 	 * the theme, it will look in the 'template' directory in the application directory.
 	 *
-	 * @param boolean $output Whether to output the content or return as string (default true).
+	 * @param bool $output Whether to output the content or return as string (default true).
+	 *
+	 * @return string|false|null
 	 */
-	public function render( $output = true ) {
+	public function render( bool $output = true ): string|false|null {
 
 		// Build the template.
 		$templater = new Templater(

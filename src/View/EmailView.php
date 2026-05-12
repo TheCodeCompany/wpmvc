@@ -36,28 +36,35 @@ class EmailView extends View {
 	 *
 	 * @var Config
 	 */
-	protected $config;
+	protected Config $config;
 
 	/**
 	 * The email template file.
 	 *
 	 * @var string
 	 */
-	protected $template;
+	protected string $template;
 
 	/**
 	 * Email headers.
 	 *
 	 * @var array
 	 */
-	protected $headers = [];
+	protected array $headers = [];
 
 	/**
 	 * Files to attach.
 	 *
 	 * @var array
 	 */
-	protected $attachments = [];
+	protected array $attachments = [];
+
+	/**
+	 * Whether the mail filters have been registered yet.
+	 *
+	 * @var bool
+	 */
+	private static bool $filters_registered = false;
 
 	/**
 	 * Constructor.
@@ -65,25 +72,29 @@ class EmailView extends View {
 	 * @param Config $config   App configuration object.
 	 * @param string $template The email template file.
 	 */
-	public function __construct( Config $config, $template ) {
+	public function __construct( Config $config, string $template ) {
 
 		$this->config   = $config;
 		$this->template = $template;
 
-		// Force html content type for emails.
-		add_filter(
-			'wp_mail_content_type',
-			function () {
-				return 'text/html';
-			}
-		);
+		self::register_mail_filters();
+	}
 
-		add_filter(
-			'wp_mail_charset',
-			function () {
-				return 'UTF-8';
-			}
-		);
+	/**
+	 * Register wp_mail filters once per process, regardless of how many EmailView instances are created.
+	 *
+	 * @return void
+	 */
+	private static function register_mail_filters(): void {
+
+		if ( self::$filters_registered ) {
+			return;
+		}
+
+		add_filter( 'wp_mail_content_type', static function () { return 'text/html'; } );
+		add_filter( 'wp_mail_charset',      static function () { return 'UTF-8'; } );
+
+		self::$filters_registered = true;
 	}
 
 	/**
@@ -91,9 +102,8 @@ class EmailView extends View {
 	 *
 	 * @param string $filename Absolute path of the file to attach.
 	 */
-	public function attach( $filename ) {
+	public function attach( string $filename ): void {
 
-		// assert( file_exists( $filename ) );
 
 		$this->attachments[] = $filename;
 	}
@@ -105,16 +115,18 @@ class EmailView extends View {
 	 *
 	 * @return boolean Whether the email was sent correctly.  NOTE does not mean that it was received properly.
 	 */
-	public function send( $to ) {
+	public function send( string|array $to ): bool {
 		$success = false;
 
-		// assert( ! empty( $to ) );
 
 		// Recurse if the to field is an array of email addresses.
 		if ( is_array( $to ) ) {
 
+			$success = true;
 			foreach ( $to as $recipient ) {
-				$this->send( $recipient );
+				if ( ! $this->send( $recipient ) ) {
+					$success = false;
+				}
 			}
 
 			return $success;
@@ -132,15 +144,16 @@ class EmailView extends View {
 		$subject = $subject_templater->render( false );
 
 		// Build the email content template.
+		$content_params            = $this->params;
+		$content_params['subject'] = $subject;
+
 		$content_templater = new Templater(
 			[
 				'slug'   => $this->template,
 				'dir'    => $this->config->get_app_directory(),
-				'params' => $this->params,
+				'params' => $content_params,
 			]
 		);
-
-		$content_templater->subject = $subject;
 
 		$content = $content_templater->render( false );
 
@@ -163,18 +176,20 @@ class EmailView extends View {
 	 *
 	 * @return string
 	 */
-	protected function shortcodes( $content ) {
+	protected function shortcodes( string $content ): string {
 
-		// assert( ! empty( $content ) );
 
 		// Perform shortcode replacement.
 		foreach ( $this->params as $key => $value ) {
 
 			if ( is_string( $value ) ) {
 
-				$content = preg_replace(
-					'{{{(| )' . $key . '( |)}}}',
-					$value,
+				$replacement = $value; // Capture for use inside closure.
+				$content     = preg_replace_callback(
+					'{{{(| )' . preg_quote( $key, '{' ) . '( |)}}}',
+					static function () use ( $replacement ) {
+						return $replacement;
+					},
 					$content
 				);
 

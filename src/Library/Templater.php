@@ -53,35 +53,35 @@ class Templater {
 	 *
 	 * @var string
 	 */
-	protected $slug;
+	protected string $slug;
 
 	/**
 	 * Default template directory.
 	 *
 	 * @var string
 	 */
-	protected $dir;
+	protected string $dir;
 
 	/**
 	 * System plugin directory
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected $system_dir;
+	protected ?string $system_dir = null;
 
 	/**
 	 * Subdirectory the templates will live in
 	 *
 	 * @var string
 	 */
-	protected $subdir;
+	protected string $subdir;
 
 	/**
 	 * Template variables.
 	 *
 	 * @var array
 	 */
-	protected $params = [];
+	protected array $params = [];
 
 	/**
 	 * Constructor.
@@ -92,27 +92,13 @@ class Templater {
 	 */
 	public function __construct( array $args ) {
 
-		$slug   = isset( $args['slug'] ) ? $args['slug'] : '';
-		$dir    = isset( $args['dir'] ) ? $args['dir'] : '';
-		$subdir = isset( $args['subdir'] ) ? $args['subdir'] : '';
-		$params = isset( $args['params'] ) ? $args['params'] : '';
-
-		// assert( ! empty( $slug ) );
-		$this->slug = $slug;
-
-		// assert( ! empty( $dir ) );
-		$this->dir = $dir;
-
-		$this->subdir = $subdir;
-
-		if ( empty( $params ) ) {
-			$this->params = [];
-		} else {
-			$this->params = $params;
-		}
+		$this->slug   = $args['slug']   ?? '';
+		$this->dir    = $args['dir']    ?? '';
+		$this->subdir = $args['subdir'] ?? '';
+		$this->params = $args['params'] ?? [];
 
 		// Add in the template slug.
-		$this->params['template_slug'] = $slug;
+		$this->params['template_slug'] = $this->slug;
 	}
 
 	/**
@@ -123,7 +109,7 @@ class Templater {
 	 *
 	 * @return void
 	 */
-	public function set_param( $name, $value ) {
+	public function set_param( string $name, mixed $value ): void {
 		$this->params[ $name ] = $value;
 	}
 
@@ -134,22 +120,23 @@ class Templater {
 	 *
 	 * @return mixed
 	 */
-	public function get_param( $name ) {
-		return $this->params[ $name ];
+	public function get_param( string $name ): mixed {
+		return $this->params[ $name ] ?? null;
 	}
 
 	/**
 	 * Renders the template.
 	 *
-	 * @param boolean $output Whether to output the rendered template,  otherwise return it as a string.
+	 * @param bool $output Whether to output the rendered template, otherwise return it as a string.
 	 *
-	 * @return false|string
+	 * @return string|false|null String when $output is false; null when $output is true (outputs directly).
 	 */
-	public function render( $output = true ) {
+	public function render( bool $output = true ): string|false|null {
 
 		if ( $output ) {
 
 			$this->render_output();
+			return null;
 
 		} else {
 
@@ -157,14 +144,15 @@ class Templater {
 			$this->render_output();
 
 			return ob_get_clean();
-
 		}
 	}
 
 	/**
 	 * Render the template and outputs the result.
+	 *
+	 * @return void
 	 */
-	protected function render_output() {
+	protected function render_output(): void {
 
 		$name  = $this->slug;
 		$paths = [
@@ -201,16 +189,11 @@ class Templater {
 	 *
 	 * @return void
 	 */
-	public function render_file( $template_file ) {
-
-		// Display missing template is a fatal error.
-		if ( ! file_exists( $template_file ) ) {
-			wp_die( esc_html( "Template does not exist; $template_file" ) );
-		}
+	public function render_file( string $template_file ): void {
 
 		// Extract the given params into the current scope.
-		// NOTE we only do this for backward compat, this shouldn't actualyl be used in new builds.
-		extract( $this->params ); // phpcs:ignore
+		// NOTE we only do this for backward compat, this shouldn't actually be used in new builds.
+		extract( $this->params ); // phpcs:ignore WordPress.PHP.DontExtract
 
 		// Include and execute the template file.
 		include $template_file;

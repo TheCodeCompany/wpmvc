@@ -9,13 +9,15 @@
 
 namespace WPMVC\Library;
 
+use WPMVC\Core\Application;
+
 /**
  * Application configuration manager.
  * Use like so, in a controller, model or view:
  *  $my_config = $this->config->get( 'my_config' );
  *  echo $my_config['some_value'];
  *  // Shorthand:
- *  echo $this->config->$this->config->get( 'my_config', 'some_value' );
+ *  echo $this->config->get( 'my_config', 'some_value' );
  * All of the application configuration is autoloaded from the /config/ and /config/local/ directories.
  */
 class Config {
@@ -32,22 +34,21 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected $config = [];
+	protected array $config = [];
 
 	/**
 	 * Application instance this config is for.
 	 *
-	 * @var \WPMVC\Core\Application
+	 * @var Application
 	 */
-	protected $app;
+	protected Application $app;
 
 	/**
 	 * Creates a new config instance for the given application
 	 *
-	 * @param \WPMVC\Core\Application $app Application instance this config is for.
+	 * @param Application $app Application instance this config is for.
 	 */
-	public function __construct( \WPMVC\Core\Application $app ) {
-		// TODO pass name and directory so we could use this is in a theme or something.
+	public function __construct( Application $app ) {
 
 		$this->app = $app;
 	}
@@ -59,28 +60,21 @@ class Config {
 	 * @param string $key     Options item in the configuration item in the config file.
 	 * @param mixed  $default The default item/value if none is found.
 	 *
-	 * @return array|mixed|string
+	 * @return mixed
 	 */
-	public function get( $name, $key = '', $default = [] ) {
+	public function get( string $name, string $key = '', mixed $default = [] ): mixed {
 
-		$return_value = $default;
+		$config_array = $this->config[ $name ] ?? null;
 
-		// Retrieve the single configuration array.
-		$config_array = [];
-		if ( isset( $this->config[ $name ] ) ) {
-			$config_array = $this->config[ $name ];
+		if ( null === $config_array ) {
+			return $default;
 		}
 
-		// Return entire config array by default.
-		$return_value = $config_array;
-
-		// Return config item if key has been passed to us.
 		if ( ! empty( $key ) ) {
-			$config_scalar = isset( $config_array[ $key ] ) ? $config_array[ $key ] : $default;
-			$return_value  = $config_scalar;
+			return $config_array[ $key ] ?? $default;
 		}
 
-		return $return_value;
+		return $config_array;
 	}
 
 	/**
@@ -88,7 +82,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function get_app_name() {
+	public function get_app_name(): string {
 
 		return $this->app->get_name();
 	}
@@ -98,15 +92,17 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function get_app_directory() {
+	public function get_app_directory(): string {
 
 		return $this->app->get_directory();
 	}
 
 	/**
 	 * Autoload the given application configuration from disk.
+	 *
+	 * @return void
 	 */
-	public function autoload() {
+	public function autoload(): void {
 
 		$app_config = [];
 		$env_config = [];
@@ -114,7 +110,7 @@ class Config {
 		$dir = $this->app->get_directory();
 
 		// Load the main configuration merging the default variables when required.
-		$config_files = glob( "$dir/config/*.php" );
+		$config_files = glob( "$dir/config/*.php" ) ?: [];
 		foreach ( $config_files as $config_file ) {
 			$config_name                = basename( $config_file, '.php' );
 			$app_config[ $config_name ] = include $config_file;
@@ -124,33 +120,27 @@ class Config {
 		$env_config_glob = "$dir/config/local/*.php";  // By default assume local dev.
 		if ( defined( 'WP_ENV' ) ) {
 
-			$env_config_glob = sprintf(
-				'%s/config/%s/*.php',
-				$dir,
-				WP_ENV
-			);
+			$env_name        = preg_replace( '/[^a-zA-Z0-9_-]/', '', WP_ENV );
+			$env_config_glob = sprintf( '%s/config/%s/*.php', $dir, $env_name );
 
 		}
 
 		// Load each of the environment specific config files.
-		$config_files = glob( $env_config_glob );
+		$config_files = glob( $env_config_glob ) ?: [];
 		foreach ( $config_files as $config_file ) {
 			$config_name                = basename( $config_file, '.php' );
 			$env_config[ $config_name ] = include $config_file;
 		}
 
 		// Merge the app configs with the environment specific overrides.
-		$app_config_keys = array_keys( $app_config );
-		$env_config_keys = array_keys( $env_config );
-		$all_config_keys = array_merge( $app_config_keys, $env_config_keys );
+		$all_config_keys = array_unique( array_merge( array_keys( $app_config ), array_keys( $env_config ) ) );
 
 		foreach ( $all_config_keys as $config_key ) {
 
-			$app_config_value = isset( $app_config[ $config_key ] ) ? $app_config[ $config_key ] : [];
-			$env_config_value = isset( $env_config[ $config_key ] ) ? $env_config[ $config_key ] : [];
+			$app_config_value = $app_config[ $config_key ] ?? [];
+			$env_config_value = $env_config[ $config_key ] ?? [];
 
 			$this->config[ $config_key ] = array_replace_recursive( $app_config_value, $env_config_value );
-
 		}
 	}
 }

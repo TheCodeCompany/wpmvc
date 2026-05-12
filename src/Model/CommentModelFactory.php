@@ -27,7 +27,7 @@ class CommentModelFactory extends WPModelFactory {
 	 * @return null|CommentModel
 	 */
 	public function get_by_id( $id ) {
-		$commend = null;
+		$comment = null;
 
 		$wp_comment = get_comment( $id );
 		if ( ! empty( $wp_comment ) ) {
@@ -114,7 +114,7 @@ class CommentModelFactory extends WPModelFactory {
 
 			// Set comment meta data.
 			if ( ! empty( $meta_fields ) ) {
-				$this->set_comment_meta( $meta_fields );
+				$this->set_comment_meta( $comment, $meta_fields );
 			}
 		}
 
@@ -146,7 +146,7 @@ class CommentModelFactory extends WPModelFactory {
 		$outcome = wp_update_comment( $comment_args );
 
 		if ( 1 === $outcome ) {
-			$this->get_by_id( $comment->comment_ID );
+			$updated_comment = $this->get_by_id( $comment->comment_ID );
 		}
 
 		return $updated_comment;
@@ -161,7 +161,7 @@ class CommentModelFactory extends WPModelFactory {
 	 * @return bool.
 	 */
 	public function delete_comment( $comment, $force_delete = false ) {
-		return $this->delete_comment_by_id( $comment->ID, $force_delete );
+		return $this->delete_comment_by_id( $comment->comment_ID, $force_delete );
 	}
 
 	/**
@@ -183,37 +183,7 @@ class CommentModelFactory extends WPModelFactory {
 	 * @param array        $meta_fields The key/value meta data.
 	 */
 	public function set_comment_meta( $comment, $meta_fields ) {
-		foreach ( $meta_fields as $key => $value ) {
-			if ( empty( $value ) ) {
-				$comment->delete_meta( $key );
-			} elseif ( is_array( $value ) ) {
-					$comment->delete_meta( $key );
-
-					// Arrays are added as multiple, separate values.
-				foreach ( $value as $val ) {
-					$comment->add_meta( $key, $val );
-				}
-			} else {
-				$comment->set_meta( $key, $value );
-			}
-		}
-	}
-
-	/**
-	 * Wrap the given WP model instances.
-	 *
-	 * @param array $wp_models WordPress model instances.
-	 *
-	 * @return array
-	 */
-	public function wrap_models( $wp_models ) {
-		$models = [];
-
-		foreach ( $wp_models as $wp_model ) {
-			$models[] = $this->wrap( $wp_model );
-		}
-
-		return $models;
+		$this->apply_meta_fields( $comment, $meta_fields );
 	}
 
 	/**

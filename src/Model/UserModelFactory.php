@@ -175,10 +175,10 @@ class UserModelFactory extends WPModelFactory {
 	/**
 	 * Converts the WP User object into the desired output.
 	 *
-	 * @param \WP_Post $user   The user object to convert.
+	 * @param \WP_User $user   The user object to convert.
 	 * @param string   $output Output type for return value.
 	 *
-	 * @return UserModel|null post in the desired output.
+	 * @return UserModel|int|null User in the desired output.
 	 */
 	public function convert_model_to_output( $user, $output = self::OUTPUT_DEFAULT ) {
 		$converted_user = null;
@@ -302,20 +302,7 @@ class UserModelFactory extends WPModelFactory {
 	 * @param array     $meta_fields The key/value meta data.
 	 */
 	public function set_user_meta( $user, $meta_fields ) {
-		foreach ( $meta_fields as $key => $value ) {
-			if ( empty( $value ) ) {
-				$user->delete_meta( $key );
-			} elseif ( is_array( $value ) ) {
-					$user->delete_meta( $key );
-
-					// Arrays will be added as multiple, separate values.
-				foreach ( $value as $val ) {
-					$user->add_meta( $key, $val );
-				}
-			} else {
-				$user->set_meta( $key, $value );
-			}
-		}
+		$this->apply_meta_fields( $user, $meta_fields );
 	}
 
 	/**
@@ -340,23 +327,6 @@ class UserModelFactory extends WPModelFactory {
 	 */
 	public function delete_user_by_id( $user_id, $reassign = null ) {
 		return wp_delete_user( $user_id, $reassign );
-	}
-
-	/**
-	 * Wrap the given WP model instances.
-	 *
-	 * @param array $wp_models WordPress model instances.
-	 *
-	 * @return array
-	 */
-	public function wrap_models( $wp_models ) {
-		$models = [];
-
-		foreach ( $wp_models as $wp_model ) {
-			$models[] = $this->wrap( $wp_model );
-		}
-
-		return $models;
 	}
 
 	/**

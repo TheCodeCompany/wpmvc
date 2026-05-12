@@ -351,37 +351,7 @@ class TaxonomyTermModelFactory extends WPModelFactory {
 	 * @param array             $meta_fields The key/value meta data.
 	 */
 	public function set_term_meta( $term, $meta_fields ) {
-		foreach ( $meta_fields as $key => $value ) {
-			if ( empty( $value ) ) {
-				$term->delete_meta( $key );
-			} elseif ( is_array( $value ) ) {
-					$term->delete_meta( $key );
-
-					// Arrays will be added as multiple, separate values.
-				foreach ( $value as $val ) {
-					$term->add_meta( $key, $val );
-				}
-			} else {
-				$term->set_meta( $key, $value );
-			}
-		}
-	}
-
-	/**
-	 * Wrap the given WP model instances.
-	 *
-	 * @param array $wp_models WordPress model instances.
-	 *
-	 * @return array
-	 */
-	public function wrap_models( $wp_models ) {
-		$models = [];
-
-		foreach ( $wp_models as $wp_model ) {
-			$models[] = $this->wrap( $wp_model );
-		}
-
-		return $models;
+		$this->apply_meta_fields( $term, $meta_fields );
 	}
 
 	/**

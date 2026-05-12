@@ -23,10 +23,10 @@ class TaxonomyModelFactory extends WPModelFactory {
 	 *
 	 * @return TaxonomyModel|null
 	 */
-	public function get_by_name( $name ) {
+	public function get_by_name( string $name ): ?TaxonomyModel {
 		$taxonomy = null;
 
-		// Get the WP_Taxonomy object with the given name..
+		// Get the WP_Taxonomy object with the given name.
 		$wp_taxonomy = get_taxonomy( $name );
 
 		if ( ! empty( $wp_taxonomy ) ) {
@@ -36,14 +36,7 @@ class TaxonomyModelFactory extends WPModelFactory {
 		return $taxonomy;
 	}
 
-	/*
-	 * TODO
-	 * - Could implement register_taxonomy functionality.
-	 * - Would also open up register_post_type functionality.
-	 * -- This should be implemented in a separate module, outside of core MVC.
-	 */
-
-	public function wrap( $taxonomy ) {
+	public function wrap( mixed $taxonomy ): TaxonomyModel {
 		return new TaxonomyModel( $taxonomy );
 	}
 }

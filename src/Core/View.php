@@ -19,7 +19,7 @@ abstract class View {
 	 *
 	 * @var array
 	 */
-	protected $params;
+	protected array $params = [];
 
 	/**
 	 * Set a parameter that will be passed to the template.
@@ -28,7 +28,7 @@ abstract class View {
 	 * @param mixed  $value The value of the parameter.
 	 * @return void
 	 */
-	public function set_param( $name, $value ) {
+	public function set_param( string $name, mixed $value ): void {
 		$this->params[ $name ] = $value;
 	}
 
@@ -38,7 +38,7 @@ abstract class View {
 	 * @param string $name The name/slug of the parameter.
 	 * @return mixed
 	 */
-	public function get_param( $name ) {
-		return $this->params[ $name ];
+	public function get_param( string $name ): mixed {
+		return $this->params[ $name ] ?? null;
 	}
 }

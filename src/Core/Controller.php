@@ -28,12 +28,6 @@ use WPMVC\Library\AdminAjax;
  * ```
  */
 abstract class Controller {
-	/*
-	 * TODO
-	 * If the "app" stuff comes under a different library, then only
-	 * config should be defined in the base controller class.
-	 * All of the other 'helper' instances should be loaded separately.
-	 */
 
 	/**
 	 * The config helper instance.
@@ -41,7 +35,7 @@ abstract class Controller {
 	 *
 	 * @var Config
 	 */
-	protected $config = null;
+	protected ?Config $config = null;
 
 	/**
 	 * Route helper instance.
@@ -49,7 +43,7 @@ abstract class Controller {
 	 *
 	 * @var Route
 	 */
-	protected $route;
+	protected Route $route;
 
 	/**
 	 * REST helper instance.
@@ -57,7 +51,7 @@ abstract class Controller {
 	 *
 	 * @var REST
 	 */
-	protected $rest;
+	protected REST $rest;
 
 	/**
 	 * Admin AJAX helper instance.
@@ -65,7 +59,7 @@ abstract class Controller {
 	 *
 	 * @var AdminAjax
 	 */
-	protected $admin_ajax;
+	protected AdminAjax $admin_ajax;
 
 	/**
 	 * Called automatically at `plugins_loaded`.
@@ -73,14 +67,14 @@ abstract class Controller {
 	 *
 	 * @return void
 	 */
-	abstract public function set_up();
+	abstract public function set_up(): void;
 
 	/**
 	 * Get the Config instance.
 	 *
 	 * @return Config
 	 */
-	public function get_config() {
+	public function get_config(): ?Config {
 		return $this->config;
 	}
 
@@ -89,7 +83,7 @@ abstract class Controller {
 	 *
 	 * @return Route
 	 */
-	public function get_route() {
+	public function get_route(): Route {
 		return $this->route;
 	}
 
@@ -98,7 +92,7 @@ abstract class Controller {
 	 *
 	 * @return REST
 	 */
-	public function get_rest() {
+	public function get_rest(): REST {
 		return $this->rest;
 	}
 
@@ -107,7 +101,7 @@ abstract class Controller {
 	 *
 	 * @return AdminAjax
 	 */
-	public function get_admin_ajax() {
+	public function get_admin_ajax(): AdminAjax {
 		return $this->admin_ajax;
 	}
 
@@ -118,7 +112,7 @@ abstract class Controller {
 	 *
 	 * @return void
 	 */
-	public function set_config_instance( Config $config ) {
+	public function set_config_instance( Config $config ): void {
 
 		$this->config = $config;
 	}
@@ -130,7 +124,7 @@ abstract class Controller {
 	 *
 	 * @return void
 	 */
-	public function set_route_instance( Route $route ) {
+	public function set_route_instance( Route $route ): void {
 
 		$this->route = $route;
 	}
@@ -142,7 +136,7 @@ abstract class Controller {
 	 *
 	 * @return void
 	 */
-	public function set_rest_instance( REST $rest ) {
+	public function set_rest_instance( REST $rest ): void {
 
 		$this->rest = $rest;
 	}
@@ -154,7 +148,7 @@ abstract class Controller {
 	 *
 	 * @return void
 	 */
-	public function set_admin_ajax_instance( AdminAjax $admin_ajax ) {
+	public function set_admin_ajax_instance( AdminAjax $admin_ajax ): void {
 
 		$this->admin_ajax = $admin_ajax;
 	}

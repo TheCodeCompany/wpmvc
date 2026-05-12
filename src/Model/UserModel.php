@@ -35,6 +35,7 @@ namespace WPMVC\Model;
  * @property string $locale
  *                         TODO document the user properties.
  */
+#[\AllowDynamicProperties]
 class UserModel extends WPModel implements WPMeta {
 
 	const FIELD_USER_LOGIN = 'user_login';
@@ -45,9 +46,9 @@ class UserModel extends WPModel implements WPMeta {
 	/**
 	 * The backing WP_User object.
 	 *
-	 * @var bool|\WP_User
+	 * @var \WP_User|false
 	 */
-	protected $user;
+	protected \WP_User|false $user;
 
 	/**
 	 * UserModel constructor.
@@ -55,9 +56,8 @@ class UserModel extends WPModel implements WPMeta {
 	 * @param \WP_User|int $user User object or ID. Use of ID is discouraged.
 	 */
 	public function __construct( $user = 0 ) {
-		// assert( ! empty( $user ) );
 
-		if ( 'object' === (string) gettype( $user ) ) {
+		if ( $user instanceof \WP_User ) {
 			$this->user = $user;
 		} else {
 			$this->user = get_user_by( 'id', $user );
@@ -71,7 +71,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return mixed
 	 */
-	public function __get( $name ) {
+	public function __get( string $name ): mixed {
 		$value = null;
 
 		if ( isset( $this->user->$name ) ) {
@@ -89,7 +89,7 @@ class UserModel extends WPModel implements WPMeta {
 	 * @param string $name  Field name/slug.
 	 * @param mixed  $value New field value.
 	 */
-	public function __set( $name, $value ) {
+	public function __set( string $name, mixed $value ): void {
 		if ( isset( $this->user->$name ) ) {
 			$this->user->$name = $value;
 		} else {
@@ -105,7 +105,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return mixed
 	 */
-	public function __call( $name, $args ) {
+	public function __call( string $name, array $args ): mixed {
 		$return = null;
 
 		if ( method_exists( $this->user, $name ) ) {
@@ -122,7 +122,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return bool|int|\WP_User
 	 */
-	public function get_wp_user() {
+	public function get_wp_user(): \WP_User|false {
 		return $this->user;
 	}
 
@@ -134,8 +134,7 @@ class UserModel extends WPModel implements WPMeta {
 	 * @return int|\WP_Error
 	 * @deprecated Use a factory to update a model.
 	 */
-	public function update( $args ) {
-		// assert( ! empty( $args ) );
+	public function update( array $args ): int|\WP_Error {
 		$args['ID'] = $this->user->ID;
 
 		return wp_update_user( $args );
@@ -149,7 +148,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return mixed
 	 */
-	public function get_meta( $key = null, $single = true ) {
+	public function get_meta( ?string $key = null, bool $single = true ): mixed {
 		return get_user_meta( $this->user->ID, $key, $single );
 	}
 
@@ -161,8 +160,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return bool|int
 	 */
-	public function set_meta( $key, $value ) {
-		// assert( ! empty( $key ) );
+	public function set_meta( string $key, mixed $value ): int|bool {
 
 		return update_user_meta( $this->user->ID, $key, $value );
 	}
@@ -176,8 +174,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return false|int
 	 */
-	public function add_meta( $key, $value, $unique = false ) {
-		// assert( ! empty( $key ) );
+	public function add_meta( string $key, mixed $value, bool $unique = false ): int|bool {
 
 		return add_user_meta( $this->user->ID, $key, $value, $unique );
 	}
@@ -190,8 +187,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @return bool False for failure. True for success.
 	 */
-	public function delete_meta( $key, $value = '' ) {
-		// assert( ! empty( $key ) );
+	public function delete_meta( string $key, string $value = '' ): bool {
 
 		return delete_user_meta( $this->user->ID, $key, $value );
 	}
@@ -201,7 +197,7 @@ class UserModel extends WPModel implements WPMeta {
 	 *
 	 * @param string $role Role to pass to the set_role call on $this->user.
 	 */
-	public function set_role( $role ) {
+	public function set_role( string $role ): void {
 		$this->user->set_role( $role );
 	}
 }
