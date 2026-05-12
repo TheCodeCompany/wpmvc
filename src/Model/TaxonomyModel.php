@@ -31,7 +31,7 @@ class TaxonomyModel extends WPModel {
 	public function __construct( $taxonomy = null ) {
 		// assert( ! empty( $taxonomy ) );
 
-		if ( 'object' === (string) gettype( $taxonomy ) ) {
+		if ( $taxonomy instanceof \WP_Taxonomy ) {
 			$this->taxonomy = $taxonomy;
 		} else {
 			$this->taxonomy = get_taxonomy( $taxonomy );

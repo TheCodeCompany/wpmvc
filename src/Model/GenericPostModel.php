@@ -98,8 +98,8 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 */
 	public function __construct( $post = null ) {
 
-		// If an ID was passed, retrieved the post object.
-		if ( 'object' !== (string) gettype( $post ) ) {
+		// If an ID was passed, retrieve the post object.
+		if ( ! ( $post instanceof \WP_Post ) ) {
 			$post = get_post( $post );
 		}
 

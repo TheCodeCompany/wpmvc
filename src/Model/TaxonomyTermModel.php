@@ -48,7 +48,7 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	public function __construct( $term = 0 ) {
 		// assert( ! empty( $term ) );
 
-		if ( 'object' === (string) gettype( $term ) ) {
+		if ( $term instanceof \WP_Term ) {
 			$this->term = $term;
 		} else {
 			$this->term = get_term( $term );

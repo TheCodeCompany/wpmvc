@@ -57,7 +57,7 @@ class UserModel extends WPModel implements WPMeta {
 	public function __construct( $user = 0 ) {
 		// assert( ! empty( $user ) );
 
-		if ( 'object' === (string) gettype( $user ) ) {
+		if ( $user instanceof \WP_User ) {
 			$this->user = $user;
 		} else {
 			$this->user = get_user_by( 'id', $user );

@@ -29,7 +29,7 @@ class CommentModel extends WPModel implements WPMeta {
 	 */
 	public function __construct( $comment = 0 ) {
 
-		if ( 'object' === (string) gettype( $comment ) ) {
+		if ( $comment instanceof \WP_Comment ) {
 			$this->comment = $comment;
 		} else {
 			$this->comment = get_comment( $comment );
