@@ -29,7 +29,6 @@ class TaxonomyModel extends WPModel {
 	 * @param null|\WP_Taxonomy|string $taxonomy The taxonomy instance.
 	 */
 	public function __construct( $taxonomy = null ) {
-		// assert( ! empty( $taxonomy ) );
 
 		if ( $taxonomy instanceof \WP_Taxonomy ) {
 			$this->taxonomy = $taxonomy;

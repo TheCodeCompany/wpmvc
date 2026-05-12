@@ -10,7 +10,6 @@
 namespace WPMVC\Core;
 
 use WPMVC\Library\Config;
-use WPMVC\Library\ControllerSetup;
 use WPMVC\Library\Route;
 use WPMVC\Library\REST;
 use WPMVC\Library\AdminAjax;

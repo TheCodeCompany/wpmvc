@@ -104,7 +104,6 @@ class EmailView extends View {
 	 */
 	public function attach( $filename ) {
 
-		// assert( file_exists( $filename ) );
 
 		$this->attachments[] = $filename;
 	}
@@ -119,7 +118,6 @@ class EmailView extends View {
 	public function send( $to ) {
 		$success = false;
 
-		// assert( ! empty( $to ) );
 
 		// Recurse if the to field is an array of email addresses.
 		if ( is_array( $to ) ) {
@@ -176,7 +174,6 @@ class EmailView extends View {
 	 */
 	protected function shortcodes( $content ) {
 
-		// assert( ! empty( $content ) );
 
 		// Perform shortcode replacement.
 		foreach ( $this->params as $key => $value ) {

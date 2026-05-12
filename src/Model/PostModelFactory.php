@@ -35,7 +35,6 @@ class PostModelFactory extends GenericPostModelFactory {
 	 * @return GenericPostModel|PostModel
 	 */
 	public function wrap( $post ) {
-		// assert( ! empty( $post ) );
 
 		return new PostModel( $post );
 	}

@@ -46,7 +46,6 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 * @param int|\WP_Term $term The term to wrap. Term ID is accepted but discouraged.
 	 */
 	public function __construct( $term = 0 ) {
-		// assert( ! empty( $term ) );
 
 		if ( $term instanceof \WP_Term ) {
 			$this->term = $term;
@@ -106,7 +105,6 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 * @deprecated Use a factory to update a model.
 	 */
 	public function update( $args ) {
-		// assert( ! empty( $args ) );
 
 		$term_id  = $this->term->term_id;
 		$taxonomy = $this->term->taxonomy;
