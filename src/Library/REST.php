@@ -123,23 +123,33 @@ class REST {
 	public function register_endpoints() {
 
 		foreach ( $this->endpoints as $endpoint ) {
-			extract( $endpoint ); // phpcs:ignore
+
+			if ( empty( $endpoint['permission_callback'] ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: %s: REST endpoint action */
+						esc_html__( 'REST endpoint "%s" has no permission_callback. Pass an explicit callback or __return_true to allow public access.', 'wpmvc' ),
+						esc_html( $endpoint['action'] )
+					),
+					'1.0.0'
+				);
+			}
 
 			// Build the actual namespace.
-			$namespace = "{$namespace}/{$version}";
+			$namespace = $endpoint['namespace'] . '/' . $endpoint['version'];
 
 			// Register the endpoint.
 			register_rest_route(
 				$namespace,
-				$action,
+				$endpoint['action'],
 				[
-					'methods'             => $method,
+					'methods'             => $endpoint['method'],
 					'callback'            => [ $this, 'handle_callback' ],
 					'permission_callback' => [ $this, 'handle_perm_callback' ],
-					'args'                => $args,
+					'args'                => $endpoint['args'],
 				]
 			);
-
 		}
 	}
 
@@ -250,12 +260,6 @@ class REST {
 	 * @return string
 	 */
 	private static function build_route( array $endpoint ) {
-		$route = '';
-
-		extract( $endpoint ); // phpcs:ignore
-
-		$route = "/{$namespace}/{$version}/{$action}";
-
-		return $route;
+		return '/' . $endpoint['namespace'] . '/' . $endpoint['version'] . '/' . $endpoint['action'];
 	}
 }
