@@ -136,8 +136,8 @@ class Config {
 
 		foreach ( $all_config_keys as $config_key ) {
 
-			$app_config_value = isset( $app_config[ $config_key ] ) ? $app_config[ $config_key ] : [];
-			$env_config_value = isset( $env_config[ $config_key ] ) ? $env_config[ $config_key ] : [];
+			$app_config_value = $app_config[ $config_key ] ?? [];
+			$env_config_value = $env_config[ $config_key ] ?? [];
 
 			$this->config[ $config_key ] = array_replace_recursive( $app_config_value, $env_config_value );
 

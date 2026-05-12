@@ -92,24 +92,10 @@ class Templater {
 	 */
 	public function __construct( array $args ) {
 
-		$slug   = isset( $args['slug'] ) ? $args['slug'] : '';
-		$dir    = isset( $args['dir'] ) ? $args['dir'] : '';
-		$subdir = isset( $args['subdir'] ) ? $args['subdir'] : '';
-		$params = isset( $args['params'] ) ? $args['params'] : '';
-
-		// assert( ! empty( $slug ) );
-		$this->slug = $slug;
-
-		// assert( ! empty( $dir ) );
-		$this->dir = $dir;
-
-		$this->subdir = $subdir;
-
-		if ( empty( $params ) ) {
-			$this->params = [];
-		} else {
-			$this->params = $params;
-		}
+		$this->slug   = $args['slug']   ?? '';
+		$this->dir    = $args['dir']    ?? '';
+		$this->subdir = $args['subdir'] ?? '';
+		$this->params = $args['params'] ?? [];
 
 		// Add in the template slug.
 		$this->params['template_slug'] = $slug;

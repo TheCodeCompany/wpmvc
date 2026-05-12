@@ -89,17 +89,18 @@ class REST {
 	 */
 	public function endpoint( array $args ) {
 
-		$default_args = [
-			'namespace'           => '',
-			'version'             => 'v1',
-			'action'              => '',
-			'method'              => 'GET',
-			'callback'            => '',
-			'permission_callback' => '',
-			'args'                => [],
-		];
-
-		$args = array_merge( $default_args, $args );
+		$args = array_merge(
+			[
+				'namespace'           => '',
+				'version'             => 'v1',
+				'action'              => '',
+				'method'              => 'GET',
+				'callback'            => '',
+				'permission_callback' => '',
+				'args'                => [],
+			],
+			$args
+		);
 
 		// Add to the list of endpoints to register.
 		$route                     = $this->build_route( $args );

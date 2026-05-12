@@ -92,7 +92,7 @@ class Route {
 
 		$site_url       = get_site_url();
 		$site_url_parts = wp_parse_url( $site_url );
-		$site_url_path  = isset( $site_url_parts['path'] ) ? $site_url_parts['path'] : '/';
+		$site_url_path  = $site_url_parts['path'] ?? '/';
 		$site_url_path  = trim( $site_url_path, '/' );
 
 		$request_path = preg_replace( '{^/?' . $site_url_path . '/?}', '', $request_path );
