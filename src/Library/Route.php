@@ -83,9 +83,9 @@ class Route {
 	public function handle_routes( $continue, $wp, $extra_query_vars ) {
 
 		// Get the request path / URI.
-		$request_path = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : ''; // phpcs:ignore
+		$request_path = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		$request_path = parse_url( $request_path, PHP_URL_PATH ) ?? '';
 		$request_path = trim( $request_path, '/' );
-		$request_path = strtok( $request_path, '?' );
 
 		// Make request path relative to the site path.
 		// This is required for routes to work when WP is installed in a subdirectory.
@@ -107,7 +107,7 @@ class Route {
 			$match   = preg_match( '{' . $regex . '}', $request_path, $matches );
 
 			// Dispatch route if a hit.
-			if ( ! empty( $matches ) ) {
+			if ( $match ) {
 
 				// Initialsie the admin bar, so we have admin bar access on custom routes!
 				if ( is_user_logged_in() ) {
