@@ -35,6 +35,7 @@ namespace WPMVC\Model;
  * @property string $locale
  *                         TODO document the user properties.
  */
+#[\AllowDynamicProperties]
 class UserModel extends WPModel implements WPMeta {
 
 	const FIELD_USER_LOGIN = 'user_login';

@@ -14,6 +14,7 @@ namespace WPMVC\Model;
  *
  * @package wpmvc
  */
+#[\AllowDynamicProperties]
 class TaxonomyModel extends WPModel {
 
 	/**

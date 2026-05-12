@@ -38,6 +38,7 @@ namespace WPMVC\Model;
  * @property string $comment_count          Number of comments on post (numeric string)
  * @package wpmvc
  */
+#[\AllowDynamicProperties]
 class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 
 	// Post Fields.

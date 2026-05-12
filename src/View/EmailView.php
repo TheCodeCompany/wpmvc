@@ -64,7 +64,7 @@ class EmailView extends View {
 	 *
 	 * @var bool
 	 */
-	private static $filters_registered = false;
+	private static bool $filters_registered = false;
 
 	/**
 	 * Constructor.
@@ -141,15 +141,16 @@ class EmailView extends View {
 		$subject = $subject_templater->render( false );
 
 		// Build the email content template.
+		$content_params            = $this->params;
+		$content_params['subject'] = $subject;
+
 		$content_templater = new Templater(
 			[
 				'slug'   => $this->template,
 				'dir'    => $this->config->get_app_directory(),
-				'params' => $this->params,
+				'params' => $content_params,
 			]
 		);
-
-		$content_templater->subject = $subject;
 
 		$content = $content_templater->render( false );
 

@@ -25,6 +25,7 @@ namespace WPMVC\Model;
  * @property string $filter
  * @package wpmvc
  */
+#[\AllowDynamicProperties]
 class TaxonomyTermModel extends WPModel implements WPMeta {
 
 	const TAXONOMY_NAME_POST_TAG = 'post_tag';

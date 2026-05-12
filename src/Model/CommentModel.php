@@ -13,6 +13,7 @@ namespace WPMVC\Model;
  * A model instance which wraps a `WP_Comment` instance.
  * You should extend this class for a comment model type. I.e. for comments attached to a specific CPT.
  */
+#[\AllowDynamicProperties]
 class CommentModel extends WPModel implements WPMeta {
 
 	/**
