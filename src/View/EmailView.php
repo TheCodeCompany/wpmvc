@@ -122,8 +122,11 @@ class EmailView extends View {
 		// Recurse if the to field is an array of email addresses.
 		if ( is_array( $to ) ) {
 
+			$success = true;
 			foreach ( $to as $recipient ) {
-				$this->send( $recipient );
+				if ( ! $this->send( $recipient ) ) {
+					$success = false;
+				}
 			}
 
 			return $success;

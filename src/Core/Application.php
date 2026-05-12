@@ -89,53 +89,29 @@ class Application {
 		$route = new Route();
 		$rest  = new REST();
 		$ajax  = new AdminAjax();
-		foreach ( $this->controllers as $controller ) {
 
-			/**
-			 * Apply filters to the controller before we set instances.
-			 */
+		foreach ( $this->controllers as $index => $controller ) {
+
 			$controller = apply_filters( 'wpmvc_pre_controller_set_instances', $controller );
 
 			$controller->set_route_instance( $route );
 			$controller->set_rest_instance( $rest );
 			$controller->set_admin_ajax_instance( $ajax );
 
-			/**
-			 * Apply filters to the controller after we set instances.
-			 */
 			$controller = apply_filters( 'wpmvc_post_controller_set_instances', $controller );
-		}
-
-		// Set config.
-		foreach ( $this->controllers as $controller ) {
-
-			/**
-			 * Apply filters to the controller before we set the config.
-			 */
 			$controller = apply_filters( 'wpmvc_pre_controller_set_config', $controller );
 
 			$controller->set_config_instance( $this->config );
 
-			/**
-			 * Apply filters to the controller after we set the config.
-			 */
 			$controller = apply_filters( 'wpmvc_post_controller_set_config', $controller );
-		}
-
-		// Set up each controller.
-		foreach ( $this->controllers as $controller ) {
-
-			/**
-			 * Apply filters to the controller before we set it up.
-			 */
 			$controller = apply_filters( 'wpmvc_pre_controller_set_up', $controller );
 
 			$controller->set_up();
 
-			/**
-			 * Apply filters to the controller after we set it up.
-			 */
 			$controller = apply_filters( 'wpmvc_post_controller_set_up', $controller );
+
+			// Write back so filter-replaced instances are persisted for callers.
+			$this->controllers[ $index ] = $controller;
 		}
 	}
 

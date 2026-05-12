@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `Application::setup_controllers()` collapsed from three separate controller loops into one, eliminating 6 `apply_filters()` calls per controller per request and fixing a correctness bug where filter-replaced controller instances were not persisted back to `$this->controllers`, causing later loops to operate on the original (pre-filter) instance.
+- `REST::handle_callback()` no longer redundantly re-assigns `$this->current_request` and re-calls `set_current_endpoint()` — both were already set by `handle_perm_callback()`, which WordPress always runs first; this eliminates a full endpoint scan on every matched REST request.
+- `EmailView::send()` now correctly returns `false` if any recipient fails when passed an array of addresses; previously the return value of each recursive call was discarded and the method always returned `false` for multi-recipient sends regardless of outcome.
 - `CommentModelFactory`: fixed typo `$commend` → `$comment` (caused undefined variable on lookup failure); `create_comment()` now passes the `$comment` argument; `delete_comment()` now uses `comment_ID`; `update_comment()` captures the return value.
 - `Config::get()` no longer overwrites `$default` before it is used; `glob()` calls fall back to `[]` instead of `false`.
 - `Route`: `REQUEST_URI` sanitised via `sanitize_url(wp_unslash(...))` and parsed with `parse_url()` instead of `strtok()`; match check corrected from `!empty($matches)` to checking `$match` directly.

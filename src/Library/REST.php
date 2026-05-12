@@ -227,12 +227,6 @@ class REST {
 
 		$response = [];
 
-		// Save current request.
-		$this->current_request = $request;
-
-		// Set current end point.
-		$this->set_current_endpoint( $request );
-
 		// Call user callback.
 		if ( ! empty( $this->current_endpoint ) ) {
 
