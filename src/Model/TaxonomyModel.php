@@ -19,9 +19,9 @@ class TaxonomyModel extends WPModel {
 	/**
 	 * The WP_Taxonomy instance for the model.
 	 *
-	 * @var \WP_Taxonomy
+	 * @var \WP_Taxonomy|false
 	 */
-	protected $taxonomy;
+	protected \WP_Taxonomy|false $taxonomy;
 
 	/**
 	 * TaxonomyModel constructor.
@@ -44,7 +44,7 @@ class TaxonomyModel extends WPModel {
 	 *
 	 * @return mixed
 	 */
-	public function __get( $name ) {
+	public function __get( string $name ): mixed {
 		$value = null;
 
 		if ( property_exists( $this->taxonomy, $name ) ) {
@@ -62,7 +62,7 @@ class TaxonomyModel extends WPModel {
 	 * @param string $name  Field name/slug.
 	 * @param mixed  $value New field value.
 	 */
-	public function __set( $name, $value ) {
+	public function __set( string $name, mixed $value ): void {
 		if ( property_exists( $this->taxonomy, $name ) ) {
 			$this->taxonomy->$name = $value;
 		} else {
@@ -75,7 +75,7 @@ class TaxonomyModel extends WPModel {
 	 *
 	 * @return bool|false|string|\WP_Taxonomy
 	 */
-	public function get_wp_taxonomy() {
+	public function get_wp_taxonomy(): \WP_Taxonomy|false {
 		return $this->taxonomy;
 	}
 }

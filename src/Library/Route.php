@@ -23,14 +23,13 @@ namespace WPMVC\Library;
  * }
  */
 class Route {
-	// TODO: make singleton.
 
 	/**
 	 * The registered routes.
 	 *
 	 * @var array
 	 */
-	protected $routes = [];
+	protected array $routes = [];
 
 	/**
 	 * Set up the routing system.
@@ -53,7 +52,7 @@ class Route {
 	 *
 	 * @return void
 	 */
-	public function add( array $args ) {
+	public function add( array $args ): void {
 
 		// Set defaults so stuff does not break.
 		$args = array_merge(
@@ -74,13 +73,13 @@ class Route {
 	/**
 	 * Handles routing on 'do_parse_request'
 	 *
-	 * @param boolean $continue         Whether to continue processing the request.
-	 * @param \WP     $wp               Current WordPress environment instance.
-	 * @param mixed   $extra_query_vars Extra passed query variables.
+	 * @param bool  $continue         Whether to continue processing the request.
+	 * @param \WP   $wp               Current WordPress environment instance.
+	 * @param mixed $extra_query_vars Extra passed query variables.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function handle_routes( $continue, $wp, $extra_query_vars ) {
+	public function handle_routes( bool $continue, \WP $wp, mixed $extra_query_vars ): bool {
 
 		// Get the request path / URI.
 		$request_path = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
@@ -97,7 +96,7 @@ class Route {
 
 		$request_path = preg_replace( '{^/?' . $site_url_path . '/?}', '', $request_path );
 
-		// Regsiter each of the routes.
+		// Register each of the routes.
 		foreach ( $this->routes as $route ) {
 			$regex    = $route['regex'];
 			$callback = $route['callback'];
@@ -109,7 +108,7 @@ class Route {
 			// Dispatch route if a hit.
 			if ( $match ) {
 
-				// Initialsie the admin bar, so we have admin bar access on custom routes!
+				// Initialise the admin bar, so we have admin bar access on custom routes!
 				if ( is_user_logged_in() ) {
 					_wp_admin_bar_init();
 				}
@@ -138,7 +137,7 @@ class Route {
 	 *
 	 * @return void
 	 */
-	protected function set_newrelic_transaction( array $route ) {
+	protected function set_newrelic_transaction( array $route ): void {
 
 		$transaction_name = '';
 

@@ -175,10 +175,10 @@ class UserModelFactory extends WPModelFactory {
 	/**
 	 * Converts the WP User object into the desired output.
 	 *
-	 * @param \WP_Post $user   The user object to convert.
+	 * @param \WP_User $user   The user object to convert.
 	 * @param string   $output Output type for return value.
 	 *
-	 * @return UserModel|null post in the desired output.
+	 * @return UserModel|int|null User in the desired output.
 	 */
 	public function convert_model_to_output( $user, $output = self::OUTPUT_DEFAULT ) {
 		$converted_user = null;

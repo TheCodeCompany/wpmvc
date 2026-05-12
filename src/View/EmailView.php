@@ -36,28 +36,28 @@ class EmailView extends View {
 	 *
 	 * @var Config
 	 */
-	protected $config;
+	protected Config $config;
 
 	/**
 	 * The email template file.
 	 *
 	 * @var string
 	 */
-	protected $template;
+	protected string $template;
 
 	/**
 	 * Email headers.
 	 *
 	 * @var array
 	 */
-	protected $headers = [];
+	protected array $headers = [];
 
 	/**
 	 * Files to attach.
 	 *
 	 * @var array
 	 */
-	protected $attachments = [];
+	protected array $attachments = [];
 
 	/**
 	 * Whether the mail filters have been registered yet.
@@ -72,7 +72,7 @@ class EmailView extends View {
 	 * @param Config $config   App configuration object.
 	 * @param string $template The email template file.
 	 */
-	public function __construct( Config $config, $template ) {
+	public function __construct( Config $config, string $template ) {
 
 		$this->config   = $config;
 		$this->template = $template;
@@ -85,7 +85,7 @@ class EmailView extends View {
 	 *
 	 * @return void
 	 */
-	private static function register_mail_filters() {
+	private static function register_mail_filters(): void {
 
 		if ( self::$filters_registered ) {
 			return;
@@ -102,7 +102,7 @@ class EmailView extends View {
 	 *
 	 * @param string $filename Absolute path of the file to attach.
 	 */
-	public function attach( $filename ) {
+	public function attach( string $filename ): void {
 
 
 		$this->attachments[] = $filename;
@@ -115,7 +115,7 @@ class EmailView extends View {
 	 *
 	 * @return boolean Whether the email was sent correctly.  NOTE does not mean that it was received properly.
 	 */
-	public function send( $to ) {
+	public function send( string|array $to ): bool {
 		$success = false;
 
 
@@ -172,7 +172,7 @@ class EmailView extends View {
 	 *
 	 * @return string
 	 */
-	protected function shortcodes( $content ) {
+	protected function shortcodes( string $content ): string {
 
 
 		// Perform shortcode replacement.

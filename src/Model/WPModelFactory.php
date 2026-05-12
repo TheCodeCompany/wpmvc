@@ -16,7 +16,7 @@ use WPMVC\Core\ModelFactory;
  *
  * @package wpmvc
  */
-class WPModelFactory extends ModelFactory {
+abstract class WPModelFactory extends ModelFactory {
 
 	/**
 	 * Wrap an array of WP model objects using this factory's wrap() method.
@@ -25,7 +25,7 @@ class WPModelFactory extends ModelFactory {
 	 *
 	 * @return array
 	 */
-	public function wrap_models( array $wp_models ) {
+	public function wrap_models( array $wp_models ): array {
 		$models = [];
 
 		foreach ( $wp_models as $wp_model ) {
@@ -44,7 +44,7 @@ class WPModelFactory extends ModelFactory {
 	 *
 	 * @return void
 	 */
-	protected function apply_meta_fields( WPMeta $model, array $meta_fields ) {
+	protected function apply_meta_fields( WPMeta $model, array $meta_fields ): void {
 		foreach ( $meta_fields as $key => $value ) {
 			if ( empty( $value ) ) {
 				$model->delete_meta( $key );
@@ -66,5 +66,5 @@ class WPModelFactory extends ModelFactory {
 	 *
 	 * @return mixed
 	 */
-	abstract public function wrap( $model );
+	abstract public function wrap( mixed $model ): mixed;
 }

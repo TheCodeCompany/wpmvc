@@ -9,13 +9,15 @@
 
 namespace WPMVC\Library;
 
+use WPMVC\Core\Application;
+
 /**
  * Application configuration manager.
  * Use like so, in a controller, model or view:
  *  $my_config = $this->config->get( 'my_config' );
  *  echo $my_config['some_value'];
  *  // Shorthand:
- *  echo $this->config->$this->config->get( 'my_config', 'some_value' );
+ *  echo $this->config->get( 'my_config', 'some_value' );
  * All of the application configuration is autoloaded from the /config/ and /config/local/ directories.
  */
 class Config {
@@ -32,22 +34,21 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected $config = [];
+	protected array $config = [];
 
 	/**
 	 * Application instance this config is for.
 	 *
-	 * @var \WPMVC\Core\Application
+	 * @var Application
 	 */
-	protected $app;
+	protected Application $app;
 
 	/**
 	 * Creates a new config instance for the given application
 	 *
-	 * @param \WPMVC\Core\Application $app Application instance this config is for.
+	 * @param Application $app Application instance this config is for.
 	 */
-	public function __construct( \WPMVC\Core\Application $app ) {
-		// TODO pass name and directory so we could use this is in a theme or something.
+	public function __construct( Application $app ) {
 
 		$this->app = $app;
 	}
@@ -59,9 +60,9 @@ class Config {
 	 * @param string $key     Options item in the configuration item in the config file.
 	 * @param mixed  $default The default item/value if none is found.
 	 *
-	 * @return array|mixed|string
+	 * @return mixed
 	 */
-	public function get( $name, $key = '', $default = [] ) {
+	public function get( string $name, string $key = '', mixed $default = [] ): mixed {
 
 		$config_array = $this->config[ $name ] ?? null;
 
@@ -81,7 +82,7 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function get_app_name() {
+	public function get_app_name(): string {
 
 		return $this->app->get_name();
 	}
@@ -91,15 +92,17 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function get_app_directory() {
+	public function get_app_directory(): string {
 
 		return $this->app->get_directory();
 	}
 
 	/**
 	 * Autoload the given application configuration from disk.
+	 *
+	 * @return void
 	 */
-	public function autoload() {
+	public function autoload(): void {
 
 		$app_config = [];
 		$env_config = [];
@@ -130,9 +133,7 @@ class Config {
 		}
 
 		// Merge the app configs with the environment specific overrides.
-		$app_config_keys = array_keys( $app_config );
-		$env_config_keys = array_keys( $env_config );
-		$all_config_keys = array_merge( $app_config_keys, $env_config_keys );
+		$all_config_keys = array_unique( array_merge( array_keys( $app_config ), array_keys( $env_config ) ) );
 
 		foreach ( $all_config_keys as $config_key ) {
 
@@ -140,7 +141,6 @@ class Config {
 			$env_config_value = $env_config[ $config_key ] ?? [];
 
 			$this->config[ $config_key ] = array_replace_recursive( $app_config_value, $env_config_value );
-
 		}
 	}
 }

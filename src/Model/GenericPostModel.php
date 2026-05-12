@@ -87,9 +87,9 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	/**
 	 * The WordPress post instance. The foundation for instance data.
 	 *
-	 * @var \WP_Post
+	 * @var \WP_Post|null
 	 */
-	protected $post;
+	protected ?\WP_Post $post;
 
 	/**
 	 * GenericPostModel constructor.
@@ -115,14 +115,10 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 * @return int|\WP_Error
 	 * @deprecated Use a model factory to update a post.
 	 */
-	public function update( $args ) {
-		$outcome = 0;
-
+	public function update( array $args ): int|\WP_Error {
 		$args['ID'] = $this->post->ID;
 
-		$outcome = wp_update_post( $args );
-
-		return $outcome;
+		return wp_update_post( $args );
 	}
 
 	/**
@@ -135,7 +131,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *                 represents its new state; if it was deleted, $post represents its state before deletion.
 	 * @deprecated Use a model factory to delete a post.
 	 */
-	public function delete_post( $force_delete = true ) {
+	public function delete_post( bool $force_delete = true ): \WP_Post|false|null {
 		return wp_delete_post( $this->ID, $force_delete );
 	}
 
@@ -146,7 +142,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return mixed
 	 */
-	public function __get( $name ) {
+	public function __get( string $name ): mixed {
 		$value = null;
 
 		if ( isset( $this->post->$name ) ) {
@@ -164,7 +160,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 * @param string $name  Field name/slug.
 	 * @param mixed  $value New field value.
 	 */
-	public function __set( $name, $value ) {
+	public function __set( string $name, mixed $value ): void {
 		if ( isset( $this->post->$name ) ) {
 			$this->post->$name = $value;
 		} else {
@@ -177,7 +173,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return array|int|\WP_Post|null
 	 */
-	public function get_wp_post() {
+	public function get_wp_post(): ?\WP_Post {
 		return $this->post;
 	}
 
@@ -190,7 +186,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return mixed
 	 */
-	public function get_meta( $key = null, $single = true ) {
+	public function get_meta( ?string $key = null, bool $single = true ): mixed {
 		return get_post_meta( $this->post->ID, $key, $single );
 	}
 
@@ -203,7 +199,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return bool|int
 	 */
-	public function set_meta( $key, $value ) {
+	public function set_meta( string $key, mixed $value ): int|bool {
 		return update_post_meta( $this->post->ID, $key, $value );
 	}
 
@@ -216,7 +212,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return false|int
 	 */
-	public function add_meta( $key, $value ) {
+	public function add_meta( string $key, mixed $value ): int|bool {
 		return add_post_meta( $this->post->ID, $key, $value );
 	}
 
@@ -229,7 +225,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return bool `false` for failure, `true` for success.
 	 */
-	public function delete_meta( $key, $value = '' ) {
+	public function delete_meta( string $key, string $value = '' ): bool {
 		return delete_post_meta( $this->post->ID, $key, $value );
 	}
 
@@ -246,7 +242,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 * @return array|\WP_Error Array of terms or WP_Error if taxonomy does not
 	 * exist
 	 */
-	public function get_terms( $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT, $args = [] ) {
+	public function get_terms( string $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT, array $args = [] ): array|\WP_Error {
 		return wp_get_post_terms( $this->post->ID, $taxonomy, $args );
 	}
 
@@ -260,8 +256,8 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return array|boolean|\WP_Error|string Array of terms or WP_Error if any issues occurred while processing the request.
 	 */
-	public function set_terms( $terms, $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT, $append = false ) {
-		return wp_set_post_terms( $this->ID, ( is_array( $terms ) ? $terms : [ $terms ] ), $taxonomy, $append );
+	public function set_terms( array|string $terms, string $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT, bool $append = false ): array|bool|\WP_Error {
+		return wp_set_post_terms( $this->ID, is_array( $terms ) ? $terms : [ $terms ], $taxonomy, $append );
 	}
 
 	/**
@@ -271,7 +267,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return array|boolean|\WP_Error|string Array of terms or WP_Error if any issues occurred while processing the request.
 	 */
-	public function remove_terms( $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT ) {
+	public function remove_terms( string $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT ): array|bool|\WP_Error {
 		return wp_set_post_terms( $this->ID, [], $taxonomy, false );
 	}
 
@@ -283,7 +279,7 @@ class GenericPostModel extends WPModel implements WPMeta, WPTaxonomyTerms {
 	 *
 	 * @return mixed True on success, false or WP_Error on failure.
 	 */
-	public function remove_term( $term_id, $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT ) {
+	public function remove_term( int $term_id, string $taxonomy = TaxonomyTermModel::TAXONOMY_NAME_DEFAULT ): bool|\WP_Error {
 		return wp_remove_object_terms( $this->ID, $term_id, $taxonomy );
 	}
 }

@@ -36,9 +36,9 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	/**
 	 * The term associated with the model instance.
 	 *
-	 * @var array|int|object|\WP_Error|\WP_Term|null
+	 * @var \WP_Term|\WP_Error|null
 	 */
-	protected $term;
+	protected \WP_Term|\WP_Error|null $term;
 
 	/**
 	 * TaxonomyTermModel constructor.
@@ -61,7 +61,7 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 *
 	 * @return mixed
 	 */
-	public function __get( $name ) {
+	public function __get( string $name ): mixed {
 		$value = null;
 
 		if ( isset( $this->term->$name ) ) {
@@ -79,7 +79,7 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 * @param string $name  Field name/slug.
 	 * @param mixed  $value New field value.
 	 */
-	public function __set( $name, $value ) {
+	public function __set( string $name, mixed $value ): void {
 		if ( isset( $this->term->$name ) ) {
 			$this->term->$name = $value;
 		} else {
@@ -92,7 +92,7 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 *
 	 * @return array|int|object|\WP_Error|\WP_Term|null
 	 */
-	public function get_wp_term() {
+	public function get_wp_term(): \WP_Term|\WP_Error|null {
 		return $this->term;
 	}
 
@@ -104,7 +104,7 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 * @return array|int|object|\WP_Error|\WP_Term|null
 	 * @deprecated Use a factory to update a model.
 	 */
-	public function update( $args ) {
+	public function update( array $args ): array|\WP_Error {
 
 		$term_id  = $this->term->term_id;
 		$taxonomy = $this->term->taxonomy;
@@ -120,39 +120,44 @@ class TaxonomyTermModel extends WPModel implements WPMeta {
 	 *
 	 * @return mixed
 	 */
-	public function get_meta( $key = null, $single = true ) {
+	public function get_meta( ?string $key = null, bool $single = true ): mixed {
 		return get_term_meta( $this->term->term_id, $key, $single );
 	}
 
 	/**
 	 * Sets the given meta field - update_term_meta().
 	 *
-	 * @param string $key   The meta key to get for the post.
+	 * @param string $key   The meta key to set for the term.
 	 * @param mixed  $value The value to set the meta field to.
+	 *
+	 * @return int|bool
 	 */
-	public function set_meta( $key, $value ) {
+	public function set_meta( string $key, mixed $value ): int|bool {
 		return update_term_meta( $this->term->term_id, $key, $value );
 	}
 
 	/**
 	 * Adds the given meta field - add_term_meta().
 	 *
-	 * @param string $key   The meta key to get for the term.
-	 * @param mixed  $value The value to set the meta field to.
+	 * @param string $key    The meta key to add for the term.
+	 * @param mixed  $value  The value to set the meta field to.
+	 * @param bool   $unique Whether the meta key should be unique. Default false.
+	 *
+	 * @return int|bool
 	 */
-	public function add_meta( $key, $value, $unique = false ) {
+	public function add_meta( string $key, mixed $value, bool $unique = false ): int|bool {
 		return add_term_meta( $this->term->term_id, $key, $value, $unique );
 	}
 
 	/**
 	 * Deletes the given meta field - delete_term_meta().
 	 *
-	 * @param string $key   The meta key to get for the term.
-	 * @param string $value The value to set the meta field to.
+	 * @param string $key   The meta key to delete for the term.
+	 * @param string $value Optionally limit deletion to entries with this value.
 	 *
 	 * @return bool False for failure. True for success.
 	 */
-	public function delete_meta( $key, $value = '' ) {
+	public function delete_meta( string $key, string $value = '' ): bool {
 		return delete_term_meta( $this->term->term_id, $key, $value );
 	}
 }

@@ -13,12 +13,13 @@ namespace WPMVC\Library;
  * Helper class for registering WordPress REST API endpoints.
  * Example:
  *  // Do this in the setup() method of a class
- *  $this->rest->>endpoint(
+ *  $this->rest->endpoint(
  *      [
- *          'namespace' => $config->app( 'name' ), // This should be the app name
+ *          'namespace' => $config->get_app_name(),
  *          'action'    => 'edit/(?P<id>\d+)',
  *          'method'    => \WP_REST_Server::READABLE,
  *          'callback'  => [ $this, 'edit_thing' ],
+ *          'permission_callback' => '__return_true',
  *      ]
  * );
  * This will create an endpoint like this:
@@ -43,31 +44,30 @@ namespace WPMVC\Library;
  *  - DELETE - for deleting objects
  */
 class REST {
-	// TODO: make singleton.
 
 	/**
 	 * All of the defined endpoints.
 	 *
 	 * @var array
 	 */
-	protected $endpoints = [];
+	protected array $endpoints = [];
 
 	/**
 	 * The current REST request, if any.
 	 *
-	 * @var array
+	 * @var \WP_REST_Request|null
 	 */
-	protected $current_request = [];
+	protected ?\WP_REST_Request $current_request = null;
 
 	/**
 	 * The current endpoint, if any.
 	 *
 	 * @var array
 	 */
-	protected $current_endpoint = [];
+	protected array $current_endpoint = [];
 
 	/**
-	 * Initialises the AJAX system if needed.
+	 * Initialises the REST helper.
 	 *
 	 * @return void
 	 */
@@ -86,8 +86,10 @@ class REST {
 	 *                    $method The HTTP method.
 	 *                    $callback The callback for the ajax hook.
 	 *                    $permission_callback The permissions callback for the ajax hook.
+	 *
+	 * @return void
 	 */
-	public function endpoint( array $args ) {
+	public function endpoint( array $args ): void {
 
 		$args = array_merge(
 			[
@@ -110,9 +112,9 @@ class REST {
 	/**
 	 * Returns the WP REST request object for the current endpoint.
 	 *
-	 * @return mixed
+	 * @return \WP_REST_Request|null
 	 */
-	public function get_request() {
+	public function get_request(): ?\WP_REST_Request {
 		return $this->current_request;
 	}
 
@@ -121,7 +123,7 @@ class REST {
 	 *
 	 * @return void
 	 */
-	public function register_endpoints() {
+	public function register_endpoints(): void {
 
 		foreach ( $this->endpoints as $endpoint ) {
 
@@ -159,9 +161,9 @@ class REST {
 	 *
 	 * @param \WP_REST_Request $request The REST endpoint request.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function handle_perm_callback( \WP_REST_Request $request ) {
+	public function handle_perm_callback( \WP_REST_Request $request ): bool {
 
 		$allowed = true;  // Default, free for all.
 
@@ -174,14 +176,11 @@ class REST {
 		// Call user callback if exists.
 		if ( ! empty( $this->current_endpoint ) ) {
 
-			$callback = null;
-			if ( isset( $this->current_endpoint['permission_callback'] ) ) {
-				$callback = $this->current_endpoint['permission_callback'];
-			}
+			$callback = $this->current_endpoint['permission_callback'] ?? null;
 
 			if ( ! empty( $callback ) ) {
 
-				$allowed = call_user_func(
+				$allowed = (bool) call_user_func(
 					$callback,
 					$request,
 					$request->get_params()
@@ -200,7 +199,7 @@ class REST {
 	 *
 	 * @return void
 	 */
-	protected function set_current_endpoint( \WP_REST_Request $request ) {
+	protected function set_current_endpoint( \WP_REST_Request $request ): void {
 		$route = $request->get_route();
 
 		foreach ( $this->endpoints as $endpoint ) {
@@ -222,9 +221,9 @@ class REST {
 	 *
 	 * @param \WP_REST_Request $request The current request.
 	 *
-	 * @return array
+	 * @return mixed
 	 */
-	public function handle_callback( \WP_REST_Request $request ) {
+	public function handle_callback( \WP_REST_Request $request ): mixed {
 
 		$response = [];
 
@@ -260,7 +259,7 @@ class REST {
 	 *
 	 * @return string
 	 */
-	private static function build_route( array $endpoint ) {
+	private static function build_route( array $endpoint ): string {
 		return '/' . $endpoint['namespace'] . '/' . $endpoint['version'] . '/' . $endpoint['action'];
 	}
 }
