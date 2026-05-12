@@ -60,6 +60,13 @@ class EmailView extends View {
 	protected $attachments = [];
 
 	/**
+	 * Whether the mail filters have been registered yet.
+	 *
+	 * @var bool
+	 */
+	private static $filters_registered = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Config $config   App configuration object.
@@ -70,20 +77,24 @@ class EmailView extends View {
 		$this->config   = $config;
 		$this->template = $template;
 
-		// Force html content type for emails.
-		add_filter(
-			'wp_mail_content_type',
-			function () {
-				return 'text/html';
-			}
-		);
+		self::register_mail_filters();
+	}
 
-		add_filter(
-			'wp_mail_charset',
-			function () {
-				return 'UTF-8';
-			}
-		);
+	/**
+	 * Register wp_mail filters once per process, regardless of how many EmailView instances are created.
+	 *
+	 * @return void
+	 */
+	private static function register_mail_filters() {
+
+		if ( self::$filters_registered ) {
+			return;
+		}
+
+		add_filter( 'wp_mail_content_type', static function () { return 'text/html'; } );
+		add_filter( 'wp_mail_charset',      static function () { return 'UTF-8'; } );
+
+		self::$filters_registered = true;
 	}
 
 	/**
@@ -172,9 +183,12 @@ class EmailView extends View {
 
 			if ( is_string( $value ) ) {
 
-				$content = preg_replace(
-					'{{{(| )' . $key . '( |)}}}',
-					$value,
+				$replacement = $value; // Capture for use inside closure.
+				$content     = preg_replace_callback(
+					'{{{(| )' . preg_quote( $key, '{' ) . '( |)}}}',
+					static function () use ( $replacement ) {
+						return $replacement;
+					},
 					$content
 				);
 
