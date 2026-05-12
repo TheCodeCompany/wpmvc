@@ -63,24 +63,17 @@ class Config {
 	 */
 	public function get( $name, $key = '', $default = [] ) {
 
-		$return_value = $default;
+		$config_array = $this->config[ $name ] ?? null;
 
-		// Retrieve the single configuration array.
-		$config_array = [];
-		if ( isset( $this->config[ $name ] ) ) {
-			$config_array = $this->config[ $name ];
+		if ( null === $config_array ) {
+			return $default;
 		}
 
-		// Return entire config array by default.
-		$return_value = $config_array;
-
-		// Return config item if key has been passed to us.
 		if ( ! empty( $key ) ) {
-			$config_scalar = isset( $config_array[ $key ] ) ? $config_array[ $key ] : $default;
-			$return_value  = $config_scalar;
+			return $config_array[ $key ] ?? $default;
 		}
 
-		return $return_value;
+		return $config_array;
 	}
 
 	/**
@@ -114,7 +107,7 @@ class Config {
 		$dir = $this->app->get_directory();
 
 		// Load the main configuration merging the default variables when required.
-		$config_files = glob( "$dir/config/*.php" );
+		$config_files = glob( "$dir/config/*.php" ) ?: [];
 		foreach ( $config_files as $config_file ) {
 			$config_name                = basename( $config_file, '.php' );
 			$app_config[ $config_name ] = include $config_file;
@@ -124,16 +117,13 @@ class Config {
 		$env_config_glob = "$dir/config/local/*.php";  // By default assume local dev.
 		if ( defined( 'WP_ENV' ) ) {
 
-			$env_config_glob = sprintf(
-				'%s/config/%s/*.php',
-				$dir,
-				WP_ENV
-			);
+			$env_name        = preg_replace( '/[^a-zA-Z0-9_-]/', '', WP_ENV );
+			$env_config_glob = sprintf( '%s/config/%s/*.php', $dir, $env_name );
 
 		}
 
 		// Load each of the environment specific config files.
-		$config_files = glob( $env_config_glob );
+		$config_files = glob( $env_config_glob ) ?: [];
 		foreach ( $config_files as $config_file ) {
 			$config_name                = basename( $config_file, '.php' );
 			$env_config[ $config_name ] = include $config_file;
