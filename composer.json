@@ -43,7 +43,7 @@
 	],
 	"require-dev": {
 		"thecodeco/coding-standards": "dev-main",
-		"johnpbloch/wordpress": "^6.6"
+		"johnpbloch/wordpress": "^7.1"
 	},
 	"config": {
 		"allow-plugins": {
